@@ -13,7 +13,7 @@ namespace AuthenticationService.API.Controllers
     {
 
         [HttpPost("/reg")]
-        public IResult Registration(UserDTO userData)
+        public IResult Registration(AuthDTO userData)
         {
             var result = authService.Register(userData);
 

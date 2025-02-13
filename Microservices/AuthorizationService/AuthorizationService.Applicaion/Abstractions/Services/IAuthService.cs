@@ -6,8 +6,8 @@ namespace AuthenticationService.Applicaion.Abstractions.Services
 {
     public interface IAuthService
     {
-        public Result<UserModel> Login(AuthDTO authData);
-        public Result<Guid> Register(UserDTO userData);
+        public Result<Guid?> Login(AuthDTO authData);
+        public Result<Guid> Register(AuthDTO userData);
 
     }
 }

@@ -8,10 +8,10 @@ namespace AuthenticationService.Applicaion.Services
 {
     public class AuthService(IAuthDataRepository userRepository, IPasswordHasher passwordHasher) : IAuthService
     {
-        public Result<Guid> Register(UserDTO userData)
+        public Result<Guid> Register(AuthDTO userData)
         {
             var resultFactory = new ResultFactory<Guid>();
-            var user = userRepository.GetByEmail(userData.Email);
+            var user = userRepository.GetByEmail(userData.Email).Result;
 
             if (user != null)
             {
@@ -21,10 +21,7 @@ namespace AuthenticationService.Applicaion.Services
 
             var passwordHash = passwordHasher.HashPassword(userData.Password);
 
-            var newUser = UserModel.Create(
-                    userData.Id,
-                    userData.Name,
-                    userData.PhoneNumber,
+            var newUser = AuthDataModel.Create(
                     userData.Email,
                     passwordHash
                 );
@@ -37,7 +34,7 @@ namespace AuthenticationService.Applicaion.Services
 
             try
             {
-                var userId = userRepository.Create(newUser.Value);
+                var userId = userRepository.Create(newUser.Value).Result;
                 resultFactory.SetResult(userId);
 
 
@@ -52,10 +49,10 @@ namespace AuthenticationService.Applicaion.Services
             }
         }
 
-        public Result<UserModel> Login(AuthDTO authData)
+        public Result<Guid?> Login(AuthDTO authData)
         {
-            var resultFactory = new ResultFactory<UserModel>();
-            var user = userRepository.GetByEmail(authData.Email);
+            var resultFactory = new ResultFactory<Guid?>();
+            var user = userRepository.GetByEmail(authData.Email).Result;
 
             if (user == null)
             {
@@ -63,13 +60,13 @@ namespace AuthenticationService.Applicaion.Services
                 return resultFactory.Create();
             }
 
-            if (!passwordHasher.VerifyPassword(authData.Password, user.AuthData.PasswordHash))
+            if (!passwordHasher.VerifyPassword(authData.Password, user.PasswordHash))
             {
                 resultFactory.AddError("Неверный пароль");
                 return resultFactory.Create();
             }
 
-            resultFactory.SetResult(user);
+            resultFactory.SetResult(user.UserId);
             return resultFactory.Create();
         }
     }

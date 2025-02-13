@@ -1,12 +1,12 @@
-﻿using AuthorizationService.Applicaion.Abstractions.Services;
-using AuthorizationService.Infrastructure.Common;
+﻿using AuthenticationService.Applicaion.Abstractions.Services;
+using AuthenticationService.Infrastructure.Common;
 using Microsoft.AspNet.Identity;
 using MimeKit;
 using System;
 using System.Configuration;
 using System.Net.Http;
 
-namespace AuthorizationService.Infrastructure.Implementations.Services
+namespace AuthenticationService.Infrastructure.Implementations.Services
 {
     class VerificationService : IVerificationService
     {

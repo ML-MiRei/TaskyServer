@@ -1,6 +1,6 @@
-﻿using AuthorizationService.Applicaion.Abstractions.Services;
+﻿using AuthenticationService.Applicaion.Abstractions.Services;
 
-namespace AuthorizationService.Infrastructure.Implementations.Services
+namespace AuthenticationService.Infrastructure.Implementations.Services
 {
     public class PasswordHasher : IPasswordHasher
     {

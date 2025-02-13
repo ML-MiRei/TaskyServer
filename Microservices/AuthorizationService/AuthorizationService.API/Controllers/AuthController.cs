@@ -1,15 +1,15 @@
-﻿using AuthorizationService.Applicaion.Abstractions.Services;
-using AuthorizationService.Applicaion.DTO;
-using AuthorizationService.Applicaion.Services;
-using AuthorizationService.Core.Models;
+﻿using AuthenticationService.Applicaion.Abstractions.Services;
+using AuthenticationService.Applicaion.DTO;
+using AuthenticationService.Applicaion.Services;
+using AuthenticationService.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace AuthorizationService.API.Controllers
+namespace AuthenticationService.API.Controllers
 {
     [Route("api/auth")]
     [ApiController]
-    public class AuthController(IAuthService authService) : ControllerBase
+    public class AuthController(AuthService authService) : ControllerBase
     {
 
         [HttpPost("/reg")]

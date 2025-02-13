@@ -12,22 +12,19 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Microservices/AuthenticationService/AuthenticationService.API/AuthenticationService.API.csproj", "Microservices/AuthenticationService/AuthenticationService.API/"]
-COPY ["Microservices/AuthenticationService/AuthenticationService.Applicaion/AuthenticationService.Applicaion.csproj", "Microservices/AuthenticationService/AuthenticationService.Applicaion/"]
-COPY ["Microservices/AuthenticationService/AuthenticationService.Core/AuthenticationService.Core.csproj", "Microservices/AuthenticationService/AuthenticationService.Core/"]
-COPY ["Microservices/AuthenticationService/AuthenticationService.Infrustructure/AuthenticationService.Infrastructure.csproj", "Microservices/AuthenticationService/AuthenticationService.Infrustructure/"]
-RUN dotnet restore "./Microservices/AuthenticationService/AuthenticationService.API/AuthenticationService.API.csproj"
+COPY ["AuthenticationService/AuthenticationService.csproj", "AuthenticationService/"]
+RUN dotnet restore "./AuthenticationService/AuthenticationService.csproj"
 COPY . .
-WORKDIR "/src/Microservices/AuthenticationService/AuthenticationService.API"
-RUN dotnet build "./AuthenticationService.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/AuthenticationService"
+RUN dotnet build "./AuthenticationService.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Этот этап используется для публикации проекта службы, который будет скопирован на последний этап
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./AuthenticationService.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./AuthenticationService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Этот этап используется в рабочей среде или при запуске из VS в обычном режиме (по умолчанию, когда конфигурация отладки не используется)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AuthenticationService.API.dll"]
+ENTRYPOINT ["dotnet", "AuthenticationService.dll"]

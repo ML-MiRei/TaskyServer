@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AuthorizationService.Core.Common
+namespace AuthenticationService.Core.Common
 {
     public class ResultFactory<T>
     {

@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>d47df523-a0c3-4771-a8ca-b066dbcf544c</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AuthorizationService.Applicaion\AuthorizationService.Applicaion.csproj" />
-    <ProjectReference Include="..\AuthorizationService.Infrustructure\AuthorizationService.Infrastructure.csproj" />
+    <ProjectReference Include="..\AuthorizationService.Applicaion\AuthenticationService.Applicaion.csproj" />
+    <ProjectReference Include="..\AuthorizationService.Infrustructure\AuthenticationService.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,12 +1,12 @@
-﻿using AuthorizationService.Applicaion.Abstractions.Repositories;
-using AuthorizationService.Applicaion.Abstractions.Services;
-using AuthorizationService.Applicaion.DTO;
-using AuthorizationService.Core.Common;
-using AuthorizationService.Core.Models;
+﻿using AuthenticationService.Applicaion.Abstractions.Repositories;
+using AuthenticationService.Applicaion.Abstractions.Services;
+using AuthenticationService.Applicaion.DTO;
+using AuthenticationService.Core.Common;
+using AuthenticationService.Core.Models;
 
-namespace AuthorizationService.Applicaion.Services
+namespace AuthenticationService.Applicaion.Services
 {
-    public class AuthService(IUsersRepository userRepository, IPasswordHasher passwordHasher) : IAuthService
+    public class AuthService(IAuthDataRepository userRepository, IPasswordHasher passwordHasher) : IAuthService
     {
         public Result<Guid> Register(UserDTO userData)
         {

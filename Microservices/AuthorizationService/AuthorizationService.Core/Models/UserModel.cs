@@ -1,7 +1,7 @@
-﻿using AuthorizationService.Core.Common;
+﻿using AuthenticationService.Core.Common;
 using System.Text.RegularExpressions;
 
-namespace AuthorizationService.Core.Models
+namespace AuthenticationService.Core.Models
 {
     public class UserModel
     {

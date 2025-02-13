@@ -1,7 +1,7 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
 
-namespace AuthorizationService.Infrastructure.Common
+namespace AuthenticationService.Infrastructure.Common
 {
     public class EmailService
     {

@@ -1,6 +1,6 @@
-﻿using AuthorizationService.Core.Models;
+﻿using AuthenticationService.Core.Models;
 
-namespace AuthorizationService.Applicaion.DTO
+namespace AuthenticationService.Applicaion.DTO
 {
     public class UserDTO
     {

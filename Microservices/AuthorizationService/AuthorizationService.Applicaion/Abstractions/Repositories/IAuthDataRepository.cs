@@ -1,8 +1,8 @@
-﻿using AuthorizationService.Core.Models;
+﻿using AuthenticationService.Core.Models;
 
-namespace AuthorizationService.Applicaion.Abstractions.Repositories
+namespace AuthenticationService.Applicaion.Abstractions.Repositories
 {
-    public interface IUsersRepository
+    public interface IAuthDataRepository
     {
         public UserModel? GetByEmail(string email);
         public Guid Create(UserModel user);

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AuthorizationService.Core\AuthorizationService.Core.csproj" />
+    <ProjectReference Include="..\AuthorizationService.Core\AuthenticationService.Core.csproj" />
   </ItemGroup>
 
 </Project>

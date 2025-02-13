@@ -1,9 +1,9 @@
-﻿using AuthorizationService.Applicaion.Abstractions.Repositories;
-using AuthorizationService.Core.Models;
+﻿using AuthenticationService.Applicaion.Abstractions.Repositories;
+using AuthenticationService.Core.Models;
 
-namespace AuthorizationService.Infrastructure.Repositories
+namespace AuthenticationService.Infrastructure.Implementations.Repositories
 {
-    public class UserRepository : IUsersRepository
+    public class AuthDataRepository : IAuthDataRepository
     {
         public Guid Create(UserModel user)
         {

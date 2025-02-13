@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthorizationService.API", "Microservices\AuthorizationService\AuthorizationService.API\AuthorizationService.API.csproj", "{5C71F7AF-F614-496F-BC14-00C16C22ABEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.API", "Microservices\AuthorizationService\AuthorizationService.API\AuthenticationService.API.csproj", "{5C71F7AF-F614-496F-BC14-00C16C22ABEC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthorizationService.Core", "Microservices\AuthorizationService\AuthorizationService.Core\AuthorizationService.Core.csproj", "{8AD0C835-F183-488C-A99A-6D9C23D37940}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.Core", "Microservices\AuthorizationService\AuthorizationService.Core\AuthenticationService.Core.csproj", "{8AD0C835-F183-488C-A99A-6D9C23D37940}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthorizationService.Applicaion", "Microservices\AuthorizationService\AuthorizationService.Applicaion\AuthorizationService.Applicaion.csproj", "{1461E6FB-DD32-489D-B328-4D785C6055FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.Applicaion", "Microservices\AuthorizationService\AuthorizationService.Applicaion\AuthenticationService.Applicaion.csproj", "{1461E6FB-DD32-489D-B328-4D785C6055FC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthorizationService.Infrastructure", "Microservices\AuthorizationService\AuthorizationService.Infrustructure\AuthorizationService.Infrastructure.csproj", "{C42B0CC9-E497-49C4-8339-535E7A0892D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.Infrastructure", "Microservices\AuthorizationService\AuthorizationService.Infrustructure\AuthenticationService.Infrastructure.csproj", "{C42B0CC9-E497-49C4-8339-535E7A0892D4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservices", "Microservices", "{371E2B00-153E-41B2-83E9-335705740980}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthorizationService", "Microservices\AuthorizationService", "{8EF93AFB-1EC9-440F-9D24-05A5C8C0CB28}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthenticationService", "AuthenticationService", "{8EF93AFB-1EC9-440F-9D24-05A5C8C0CB28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

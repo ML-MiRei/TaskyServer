@@ -1,8 +1,8 @@
-﻿using AuthorizationService.Applicaion.DTO;
-using AuthorizationService.Core.Common;
-using AuthorizationService.Core.Models;
+﻿using AuthenticationService.Applicaion.DTO;
+using AuthenticationService.Core.Common;
+using AuthenticationService.Core.Models;
 
-namespace AuthorizationService.Applicaion.Abstractions.Services
+namespace AuthenticationService.Applicaion.Abstractions.Services
 {
     public interface IAuthService
     {

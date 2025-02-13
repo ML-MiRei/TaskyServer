@@ -1,4 +1,4 @@
-﻿namespace AuthorizationService.Applicaion.DTO
+﻿namespace AuthenticationService.Applicaion.DTO
 {
     public class AuthDTO
     {

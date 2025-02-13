@@ -23,6 +23,8 @@ namespace AuthenticationService.Infrastructure.Database
         {
             modelBuilder.Entity<AuthData>().HasKey(ad => ad.UserId);
             modelBuilder.Entity<AuthData>().HasIndex(ad => ad.Email).IsUnique();
+            modelBuilder.Entity<AuthData>().Property(ad => ad.RegistrationDate).HasDefaultValueSql("GETDATE()");
+            modelBuilder.Entity<AuthData>().Property(ad => ad.UserId).HasDefaultValueSql("NEWID()");
         }
 
     }

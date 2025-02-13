@@ -4,9 +4,9 @@ namespace AuthenticationService.Applicaion.Abstractions.Repositories
 {
     public interface IAuthDataRepository
     {
-        public UserModel? GetByEmail(string email);
-        public Guid Create(UserModel user);
-        public Guid? Update(UserModel user);
-        public Guid? Delete(Guid? id);
+        public Task<AuthDataModel> GetByEmail(string email);
+        public Task<Guid> Create(AuthDataModel authData);
+        public Task<Guid?> UpdateEmailAsync(Guid userId, string email);
+        public Task<Guid?> UpdatePasswordAsync(Guid userId, string password);
     }
 }

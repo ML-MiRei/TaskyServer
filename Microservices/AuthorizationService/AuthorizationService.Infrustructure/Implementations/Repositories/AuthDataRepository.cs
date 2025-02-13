@@ -1,28 +1,52 @@
 ﻿using AuthenticationService.Applicaion.Abstractions.Repositories;
 using AuthenticationService.Core.Models;
+using AuthenticationService.Infrastructure.Database;
+using AuthenticationService.Infrastructure.Database.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthenticationService.Infrastructure.Implementations.Repositories
 {
-    public class AuthDataRepository : IAuthDataRepository
+    public class AuthDataRepository(AuthDbContext context) : IAuthDataRepository
     {
-        public Guid Create(UserModel user)
+        public async Task<Guid> Create(AuthDataModel authData)
         {
-            return Guid.NewGuid();
+            var newData = new AuthData(authData.Email, authData.PasswordHash);
+            await context.AuthData.AddAsync(newData);
+            await context.SaveChangesAsync();
+            
+            return newData.UserId;
         }
 
-        public Guid? Delete(Guid? id)
+        public async Task<AuthDataModel?> GetByEmail(string email)
         {
-            throw new NotImplementedException();
+            var data = await context.AuthData.FirstOrDefaultAsync(ad => ad.Email == email);
+            return data == null ? null : AuthDataModel.Create(data.Email, data.PasswordHash, data.UserId).Value;
         }
 
-        public UserModel? GetByEmail(string email)
+        public async Task<Guid?> UpdateEmailAsync(Guid userId, string email)
         {
-            return UserModel.Create(Guid.NewGuid(), "Name", "79089089999", email, "has3Hskksh").Value;
+            var data = await context.AuthData.FirstOrDefaultAsync(ad => ad.UserId == userId);
+
+            if(data == null) 
+                return null;
+
+            data.Email = email;
+            await context.SaveChangesAsync();
+
+            return userId;
         }
 
-        public Guid? Update(UserModel user)
+        public async Task<Guid?> UpdatePasswordAsync(Guid userId, string passwordHash)
         {
-            throw new NotImplementedException();
+            var data = await context.AuthData.FirstOrDefaultAsync(ad => ad.UserId == userId);
+
+            if (data == null)
+                return null;
+
+            data.PasswordHash = passwordHash;
+            await context.SaveChangesAsync();
+
+            return userId;
         }
     }
 }

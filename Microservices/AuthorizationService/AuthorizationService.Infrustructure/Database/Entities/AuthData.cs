@@ -16,5 +16,14 @@ namespace AuthenticationService.Infrastructure.Database.Entities
 
         [Required]
         public DateTime RegistrationDate { get; set; } = DateTime.Now;
+
+
+        public AuthData(string email, string passwordHash)
+        { 
+            Email = email;
+            PasswordHash = passwordHash;
+        }
+
+
     }
 }

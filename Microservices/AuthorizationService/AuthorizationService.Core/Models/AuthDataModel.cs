@@ -5,13 +5,15 @@ namespace AuthenticationService.Core.Models
 {
     public class AuthDataModel
     {
+        public Guid? UserId { get;} = null;
         public string Email { get; }
         public string PasswordHash { get; }
 
-        private AuthDataModel(string email, string passwordHash)
+        private AuthDataModel(string email, string passwordHash, Guid? userId)
         {
             Email = email;
             PasswordHash = passwordHash;
+            UserId = userId;
         }
 
         public static bool IsValidEmail(string email)
@@ -36,7 +38,7 @@ namespace AuthenticationService.Core.Models
         }
 
 
-        public static Result<AuthDataModel> Create(string email, string passwordHash)
+        public static Result<AuthDataModel> Create(string email, string passwordHash, Guid? userId = null)
         {
             var resultFactory = new ResultFactory<AuthDataModel>();
 
@@ -46,7 +48,8 @@ namespace AuthenticationService.Core.Models
             if (!IsValidPassword(passwordHash))
                 resultFactory.AddError("Неверное значение пароля");
 
-            resultFactory.SetResult(new AuthDataModel(email, passwordHash));
+            resultFactory.SetResult(new AuthDataModel(email, passwordHash, userId));
+
 
             return resultFactory.Create();
         }

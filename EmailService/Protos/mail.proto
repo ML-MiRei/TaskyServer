@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "EmailService";
+
+package sender;
+
+service Sender {
+  rpc SendMail (SendMailRequest) returns (SendMailReply);
+}
+
+message SendMailRequest {
+  repeated string to = 1;
+  string subject = 2;
+  string body = 3;
+}
+
+message SendMailReply {
+  bool is_success = 1;
+  string error = 2;
+}

@@ -1,0 +1,29 @@
+services:
+  auth_service:
+    build:
+        dockerfile: Microservices/AuthenticationService/AuthenticationService.API/Dockerfile
+        context: .
+    ports:
+        - "8081:8081"
+    container_name: auth_service_container
+    depends_on:
+        - auth_db
+  auth_db:
+    image: postgres:latest  
+    ports:
+        - "5432:5432"
+    environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: q1w
+    volumes:
+        - auth_db_data:/var/lib/postgresql/data
+    container_name: auth_db_container
+  email_service:
+    build:
+        dockerfile: Microservices/EmailService/EmailService/Dockerfile
+        context: .
+    ports:
+        - "8082:8082"
+    container_name: email_service_container
+volumes:
+    auth_db_data:

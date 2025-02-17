@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.API", "Microservices\AuthorizationService\AuthorizationService.API\AuthenticationService.API.csproj", "{5C71F7AF-F614-496F-BC14-00C16C22ABEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.API", "Microservices\AuthenticationService\AuthenticationService.API\AuthenticationService.API.csproj", "{5C71F7AF-F614-496F-BC14-00C16C22ABEC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.Core", "Microservices\AuthorizationService\AuthorizationService.Core\AuthenticationService.Core.csproj", "{8AD0C835-F183-488C-A99A-6D9C23D37940}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.Core", "Microservices\AuthenticationService\AuthenticationService.Core\AuthenticationService.Core.csproj", "{8AD0C835-F183-488C-A99A-6D9C23D37940}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.Applicaion", "Microservices\AuthorizationService\AuthorizationService.Applicaion\AuthenticationService.Applicaion.csproj", "{1461E6FB-DD32-489D-B328-4D785C6055FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.Applicaion", "Microservices\AuthenticationService\AuthenticationService.Applicaion\AuthenticationService.Applicaion.csproj", "{1461E6FB-DD32-489D-B328-4D785C6055FC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.Infrastructure", "Microservices\AuthorizationService\AuthorizationService.Infrustructure\AuthenticationService.Infrastructure.csproj", "{C42B0CC9-E497-49C4-8339-535E7A0892D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService.Infrastructure", "Microservices\AuthenticationService\AuthenticationService.Infrustructure\AuthenticationService.Infrastructure.csproj", "{C42B0CC9-E497-49C4-8339-535E7A0892D4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservices", "Microservices", "{371E2B00-153E-41B2-83E9-335705740980}"
 EndProject
@@ -17,7 +17,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthenticationService", "Au
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EmailService", "EmailService", "{4CCD8E15-CB8B-46C5-834C-8C7CD8E5BCA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailService", "EmailService\EmailService.csproj", "{98955920-312F-4722-B57D-4F358E53E8F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailService", "Microservices\EmailService\EmailService\EmailService.csproj", "{98955920-312F-4722-B57D-4F358E53E8F1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{F97BA024-397C-457D-AC51-92B859D6D6E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{88A8B797-1536-4971-A187-9D970010646D}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProjectService", "ProjectService", "{A4D3FBFD-2F74-4801-ABF5-3EEDA89E6D33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectService.Core", "ProjectService.Core\ProjectService.Core.csproj", "{1C1B2A0C-AA32-4124-9573-4A6D0F08B791}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectService.Application", "ProjectService.Application\ProjectService.Application.csproj", "{AF2B725D-38CE-42C2-B42E-8329B4EB77CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +58,18 @@ Global
 		{98955920-312F-4722-B57D-4F358E53E8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98955920-312F-4722-B57D-4F358E53E8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98955920-312F-4722-B57D-4F358E53E8F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F97BA024-397C-457D-AC51-92B859D6D6E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F97BA024-397C-457D-AC51-92B859D6D6E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F97BA024-397C-457D-AC51-92B859D6D6E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F97BA024-397C-457D-AC51-92B859D6D6E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C1B2A0C-AA32-4124-9573-4A6D0F08B791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C1B2A0C-AA32-4124-9573-4A6D0F08B791}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C1B2A0C-AA32-4124-9573-4A6D0F08B791}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C1B2A0C-AA32-4124-9573-4A6D0F08B791}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF2B725D-38CE-42C2-B42E-8329B4EB77CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF2B725D-38CE-42C2-B42E-8329B4EB77CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF2B725D-38CE-42C2-B42E-8329B4EB77CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF2B725D-38CE-42C2-B42E-8329B4EB77CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +82,9 @@ Global
 		{8EF93AFB-1EC9-440F-9D24-05A5C8C0CB28} = {371E2B00-153E-41B2-83E9-335705740980}
 		{4CCD8E15-CB8B-46C5-834C-8C7CD8E5BCA9} = {371E2B00-153E-41B2-83E9-335705740980}
 		{98955920-312F-4722-B57D-4F358E53E8F1} = {4CCD8E15-CB8B-46C5-834C-8C7CD8E5BCA9}
+		{A4D3FBFD-2F74-4801-ABF5-3EEDA89E6D33} = {371E2B00-153E-41B2-83E9-335705740980}
+		{1C1B2A0C-AA32-4124-9573-4A6D0F08B791} = {A4D3FBFD-2F74-4801-ABF5-3EEDA89E6D33}
+		{AF2B725D-38CE-42C2-B42E-8329B4EB77CC} = {A4D3FBFD-2F74-4801-ABF5-3EEDA89E6D33}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {37F7F6CB-BC0C-4C4A-92ED-E3118383AE5D}

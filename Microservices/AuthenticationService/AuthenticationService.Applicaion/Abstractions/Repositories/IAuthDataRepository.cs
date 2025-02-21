@@ -1,4 +1,5 @@
-﻿using AuthenticationService.Core.Models;
+﻿using AuthenticationService.Applicaion.DTO;
+using AuthenticationService.Core.Models;
 
 namespace AuthenticationService.Applicaion.Abstractions.Repositories
 {

@@ -1,11 +1,10 @@
-﻿namespace AuthenticationService.Core.Common
+﻿namespace ProjectService.Core.Common
 {
+
     public class ResultFactory<T>
     {
-
         private List<string> _errors { get;} = new List<string>();
         private T? _value = default(T);
-        
 
         public void AddError(string error)
         {

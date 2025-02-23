@@ -1,0 +1,56 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "SprintService.API";
+
+package sprint;
+
+service Sprints {
+  rpc CreateSprint (CreateSprintRequest) returns (CreateSprintReply);
+  rpc UpdateSprint (UpdateSprintRequest) returns (UpdateSprintReply);
+  rpc DeleteSprint (DeleteSprintRequest) returns (DeleteSprintReply);
+  rpc GetAllSprints (GetAllSprintsRequest) returns (GetAllSprintsReply);
+}
+
+message CreateSprintRequest {
+	string project_id = 1;
+	google.protobuf.Timestamp date_start = 2;
+	google.protobuf.Timestamp date_end = 3;
+}
+
+message CreateSprintReply {
+  int32 sprint_id = 1;
+}
+
+
+message GetAllSprintsRequest{
+	string project_id = 1;
+}
+
+message GetAllSprintsReply{
+	repeated SprintInfo sprints = 1;
+}
+
+message UpdateSprintRequest{
+	int32 sprint_id = 1;
+	google.protobuf.Timestamp date_start = 2;
+	google.protobuf.Timestamp date_end = 3;}
+
+message UpdateSprintReply{
+	int32 sprint_id = 1;
+}
+
+message DeleteSprintRequest{
+	int32 sprint_id  = 1;
+}
+
+message DeleteSprintReply{
+	int32 sprint_id  = 1;
+}
+
+
+message SprintInfo{
+	int32 id = 1;
+	google.protobuf.Timestamp date_start = 2;
+	google.protobuf.Timestamp date_end = 3;
+}

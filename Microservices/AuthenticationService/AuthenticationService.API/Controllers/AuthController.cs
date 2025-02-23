@@ -19,8 +19,8 @@ namespace AuthenticationService.API.Controllers
 
             if (result.IsSuccess)
                 return Results.Ok(result.Value);
-            else
-                return Results.Problem(string.Join("; ", result.Errors));
+
+            return Results.Problem(string.Join("; ", result.Errors));
 
         }
 

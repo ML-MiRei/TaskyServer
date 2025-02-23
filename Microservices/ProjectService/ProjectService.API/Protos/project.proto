@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+option csharp_namespace = "ProjectService.API";
+
+package project;
+
+service Projects {
+  rpc CreateProject (CreateProjectRequest) returns (CreateProjectReply);
+  rpc UpdateProject (UpdateProjectRequest) returns (UpdateProjectReply);
+  rpc DeleteProject (DeleteProjectRequest) returns (DeleteProjectReply);
+  rpc GetProject (GetProjectRequest) returns (GetProjectReply);
+  rpc GetAllProjects (GetAllProjectsRequest) returns (GetAllProjectsReply);
+}
+
+message CreateProjectRequest {
+  string name = 1;
+  string description = 2;
+  string user_id = 3;  
+}
+
+message CreateProjectReply {
+  string project_id = 1;
+}
+
+
+message GetAllProjectsRequest{
+	string user_id = 1;
+}
+
+message GetAllProjectsReply{
+	repeated ProjectShortInfo projects = 1;
+}
+
+message GetProjectRequest{
+	string project_id = 1;
+}
+
+message GetProjectReply{
+	string id = 1;
+	string name = 2;
+	string description = 3;
+}
+
+message UpdateProjectRequest{
+	string id = 1;
+	string name = 2;
+	string description = 3;
+}
+
+message UpdateProjectReply{
+	string project_id  = 1;
+}
+
+message DeleteProjectRequest{
+	string project_id  = 1;
+}
+
+message DeleteProjectReply{
+	string project_id  = 1;
+}
+
+message ProjectShortInfo{
+	string id = 1;
+	string name = 2;
+	int32 count_tasks = 3;
+	double procent_done_tasks = 4;
+}

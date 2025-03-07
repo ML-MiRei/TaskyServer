@@ -17,21 +17,24 @@ namespace AuthenticationService.API.Controllers
         {
             var result = authService.Register(userData);
 
-            if (result.IsSuccess)
-                return Results.Ok(result.Value);
+            if (result.IsError)
+                return Results.Problem(string.Join("; ", result.Errors));
 
-            return Results.Problem(string.Join("; ", result.Errors));
 
+            HttpContext.Response.Cookies.Append("atj-user", result.Value);
+            return Results.Ok(result.Value);
         }
 
         [HttpPatch("/login")]
         public IResult Login(AuthDTO authData)
         {
             var result = authService.Login(authData);
-            if (result.IsSuccess)
-                return Results.Ok(result.Value);
-            else
+            if (result.IsError)
                 return Results.Problem(string.Join("; ", result.Errors));
+
+            HttpContext.Response.Cookies.Append("atj-user", result.Value);
+            return Results.Ok(result.Value);
+
         }
 
 

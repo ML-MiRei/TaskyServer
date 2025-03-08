@@ -4,10 +4,28 @@ services:
         dockerfile: Microservices/AuthenticationService/AuthenticationService.API/Dockerfile
         context: .
     ports:
-        - "8081:8081"
+        - "8082:8082"
     container_name: auth_service_container
     depends_on:
         - auth_db
+  project_service:
+    build:
+        dockerfile: Microservices/ProjectService/ProjectService.API/Dockerfile
+        context: .
+    ports:
+        - "8083:8083"
+    container_name: project_service_container
+    depends_on:
+        - project_db
+  user_service:
+    build:
+        dockerfile: Microservices/UserService/UserService.API/Dockerfile
+        context: .
+    ports:
+        - "8084:8084"
+    container_name: user_service_container
+    depends_on:
+        - user_db
   auth_db:
     image: postgres:latest  
     ports:
@@ -18,12 +36,34 @@ services:
     volumes:
         - auth_db_data:/var/lib/postgresql/data
     container_name: auth_db_container
+  project_db:
+    image: postgres:latest  
+    ports:
+        - "5433:5433"
+    environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: q1w
+    volumes:
+        - project_db_data:/var/lib/postgresql/data
+    container_name: project_db_container
+  user_db:
+    image: postgres:latest  
+    ports:
+        - "5433:5433"
+    environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: q1w
+    volumes:
+        - user_db_data:/var/lib/postgresql/data
+    container_name: user_db_container
   email_service:
     build:
         dockerfile: Microservices/EmailService/EmailService/Dockerfile
         context: .
     ports:
-        - "8082:8082"
+        - "8081:8081"
     container_name: email_service_container
 volumes:
     auth_db_data:
+    project_db_data:
+    user_db_data:

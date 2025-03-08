@@ -1,5 +1,4 @@
 ﻿using Grpc.Core;
-using ProjectService.API;
 using ProjectService.Application.Abstractions.Repositories;
 using ProjectService.Core.Models;
 
@@ -71,11 +70,9 @@ namespace ProjectService.API.Services
             {
                 var members = await membersRepository.GetAllAsync(Guid.Parse(request.ProjectId));
 
-                // request in user service
-
                 var res = new GetMembersReply();
-                res.Members.AddRange(members.Select(m => new MemberInfo { Name = m.Name, PicturePath = m.PicturePath, UserId = m.Id.ToString() }));
-                // cash
+                res.Members.AddRange(members.Select(m => new MemberInfo { UserId = m.Id.ToString(), Role = m.RoleID }));
+
                 return res;
             }
             catch (Exception ex)

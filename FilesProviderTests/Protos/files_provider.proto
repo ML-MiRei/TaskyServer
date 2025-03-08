@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option csharp_namespace = "FilesProviderTests";
+
+package files_provider;
+
+service FilesProvider {  
+  rpc GetFile (GetFileRequest) returns (GetFileReply);
+  rpc UploadFile (UploadFileRequest) returns (UploadFileReply);
+  rpc DeleteFile (DeleteFileRequest) returns (DeleteFileReply);
+}
+
+message GetFileRequest {
+  string key = 1;
+}
+
+message GetFileReply {
+  bytes chunk_data  = 1;
+  string file_type = 2;
+}
+
+message UploadFileRequest {
+  bytes chunk_data = 1;
+  string key = 2;
+  string file_type = 3;
+}
+
+message UploadFileReply {
+  string key = 1;
+}
+
+message DeleteFileRequest {
+  string key = 1;
+}
+
+message DeleteFileReply {
+  string key = 1;
+}

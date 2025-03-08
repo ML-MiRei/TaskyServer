@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "ProjectService.API";
+option csharp_namespace = "Gateaway.Core.Contracts";
 
 package member;
 
@@ -52,5 +52,6 @@ message GetMembersReply{
 
 message MemberInfo{
 	string user_id =1;
-	int32 role = 2;
+	string name = 2;
+	string picture_path = 3;
 }

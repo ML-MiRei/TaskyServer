@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "Gateaway.Core.Contracts";
+
+package task;
+
+service Tasks {
+ rpc CreateTask (CreateTaskRequest) returns (CreateTaskReply);
+  rpc UpdateTask (UpdateTaskRequest) returns (UpdateTaskReply);
+  rpc DeleteTask (DeleteTaskRequest) returns (DeleteTaskReply);
+  rpc GetTask (GetTaskRequest) returns (GetTaskReply);
+  rpc GetAllTasks (GetAllTasksRequest) returns (GetAllTasksReply);
+}
+
+message CreateTaskRequest {
+	string project_id = 1;  
+	string title = 2;
+	string description = 3;
+	string executor_id = 4;  
+	int32 status_id = 5;
+	google.protobuf.Int32Value sprint_id = 6;
+}
+
+message CreateTaskReply {
+  int32 task_id = 1;
+}
+
+
+message GetAllTasksRequest{
+	string project_id = 1;
+}
+
+message GetAllTasksReply{
+	repeated TaskShortInfo tasks = 1;
+}
+
+message GetTaskRequest{
+	int32 task_id = 1;
+}
+
+message GetTaskReply{
+	int32 id = 1;
+	string title = 2;
+	string description = 3;
+	ExecutorInfo executor = 4;
+	int32 status_id = 5;
+}
+
+message UpdateTaskRequest{
+	int32 id = 1;
+	string title = 2;
+	string description = 3;
+	string executor = 4;
+	int32 status_id = 5;
+	google.protobuf.Int32Value sprint_id = 6;
+}
+
+message UpdateTaskReply{
+	int32 task_id  = 1;
+}
+
+message DeleteTaskRequest{
+	int32 task_id  = 1;
+}
+
+message DeleteTaskReply{
+	int32 task_id  = 1;
+}
+
+message TaskShortInfo{
+	int32 id = 1;
+	string title = 2;
+	string executor_name = 3;
+	string description = 4;
+	google.protobuf.Int32Value sprint_id = 5;
+	int32 status_id = 6;
+}
+
+
+message ExecutorInfo{
+	string user_id =1;
+	string name = 2;
+	string picture_path = 3;
+}

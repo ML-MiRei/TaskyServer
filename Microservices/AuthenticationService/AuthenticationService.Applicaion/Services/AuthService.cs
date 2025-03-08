@@ -3,14 +3,15 @@ using AuthenticationService.Applicaion.Abstractions.Services;
 using AuthenticationService.Applicaion.DTO;
 using AuthenticationService.Core.Common;
 using AuthenticationService.Core.Models;
+using Microsoft.Extensions.Logging;
 
 namespace AuthenticationService.Applicaion.Services
 {
-    public class AuthService(IAuthDataRepository userRepository, IPasswordHasher passwordHasher) : IAuthService
+    public class AuthService(IAuthDataRepository userRepository, IPasswordHasher passwordHasher, IJwtProvider jwtProvider, ILogger<AuthService> logger) : IAuthService
     {
-        public Result<Guid> Register(AuthDTO userData)
+        public Result<string> Register(AuthDTO userData)
         {
-            var resultFactory = new ResultFactory<Guid>();
+            var resultFactory = new ResultFactory<string>();
             var user = userRepository.GetByEmail(userData.Email).Result;
 
             if (user != null)
@@ -35,7 +36,9 @@ namespace AuthenticationService.Applicaion.Services
             try
             {
                 var userId = userRepository.Create(newUser.Value).Result;
-                resultFactory.SetResult(userId);
+                var token = jwtProvider.GenerateToken(AuthDataModel.Create(userData.Email, passwordHash, userId).Value);
+
+                resultFactory.SetResult(token);
 
 
                 //verify
@@ -44,15 +47,20 @@ namespace AuthenticationService.Applicaion.Services
             }
             catch (Exception ex)
             {
+
+                logger.LogError(ex.ToString());
+                logger.LogError(ex.Message);
+                logger.LogError(ex.InnerException?.Message);
+
                 resultFactory.AddError(ex.Message);
                 return resultFactory.Create();
             }
         }
 
-        public Result<Guid?> Login(AuthDTO authData)
+        public Result<string?> Login(AuthDTO userData)
         {
-            var resultFactory = new ResultFactory<Guid?>();
-            var user = userRepository.GetByEmail(authData.Email).Result;
+            var resultFactory = new ResultFactory<string?>();
+            var user = userRepository.GetByEmail(userData.Email).Result;
 
             if (user == null)
             {
@@ -60,13 +68,15 @@ namespace AuthenticationService.Applicaion.Services
                 return resultFactory.Create();
             }
 
-            if (!passwordHasher.VerifyPassword(authData.Password, user.PasswordHash))
+            if (!passwordHasher.VerifyPassword(userData.Password, user.PasswordHash))
             {
                 resultFactory.AddError("Неверный пароль");
                 return resultFactory.Create();
             }
 
-            resultFactory.SetResult(user.UserId);
+            var token = jwtProvider.GenerateToken(AuthDataModel.Create(user.Email, user.PasswordHash, user.UserId).Value);
+
+            resultFactory.SetResult(token);
             return resultFactory.Create();
         }
     }

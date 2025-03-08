@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "AuthenticationService.Infrastructure";
+option csharp_namespace = "Gateaway.Core.Contracts";
 
 package sender;
 

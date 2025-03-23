@@ -1,4 +1,9 @@
+using Gateaway.Application.Services;
+using Microsoft.AspNetCore.SignalR;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
 //builder.Services.Configure<ConnectionOptions>(builder.Configuration.GetSection("ConnectionStrings"));
 

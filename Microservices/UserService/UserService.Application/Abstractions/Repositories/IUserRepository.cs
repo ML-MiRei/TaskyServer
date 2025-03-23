@@ -4,10 +4,10 @@ namespace UserService.Application.Abstractions.Repositories
 {
     public interface IUserRepository
     {
-        Task<UserModel> CreateAsync(Guid id, string email);
+        Task<UserModel> CreateAsync(string id, string email);
         Task<List<UserModel>> FindByNameAsync(string userName);
-        Task<UserModel> GetByIdAsync(Guid userId);
-        Task<List<UserModel>> GetByIdAsync(Guid[] userIds);
-        Task<Guid> UpdateAsync(UserModel userModel);
+        Task<UserModel> GetByIdAsync(string userId);
+        Task<List<UserModel>> GetByIdAsync(string[] userIds);
+        Task<string> UpdateAsync(UserModel userModel);
     }
 }

@@ -20,12 +20,12 @@ namespace UserService.Infrastructure.Implementations.Repositories
         }
 
 
-        public async Task<UserModel> CreateAsync(Guid id, string email)
+        public async Task<UserModel> CreateAsync(string id, string email)
         {
             var newUser = new User
             {
                 Email = email,
-                Id = id,
+                Id = id.ToString(),
                 Name = FormatEmailToUsername(email)
             };
 
@@ -38,11 +38,11 @@ namespace UserService.Infrastructure.Implementations.Repositories
         }
 
 
-        public async Task<Guid> UpdateAsync(UserModel userModel)
+        public async Task<string> UpdateAsync(UserModel userModel)
         {
-            var updatingUser = context.Users.AsNoTracking().First(u => u.Id == userModel.Id);
+            var updatingUser = context.Users.First(u => u.Id == userModel.Id.ToString());
 
-            updatingUser.PicturePath = userModel.ProfilePicture?.Name;
+            updatingUser.PictureKey = userModel.ProfilePicture?.Name;
             updatingUser.Phone = userModel.Phone;
             updatingUser.Name = userModel.Name;
             updatingUser.Gender = (int)userModel.Gender;
@@ -53,24 +53,26 @@ namespace UserService.Infrastructure.Implementations.Repositories
             return userModel.Id;
         }
 
-        public async Task<UserModel> GetByIdAsync(Guid userId)
+        public async Task<UserModel> GetByIdAsync(string userId)
         {
             var user = context.Users
                 .AsNoTracking()
                 .FirstOrDefault(u => u.Id == userId);
 
-            var userModel = UserModel.Create(userId, user.Name, user.Email, new Picture { Name = user.PicturePath }, user.Phone, (GenderCode)user.Gender).Value;
+            var userModel = UserModel.Create(userId, user.Name, user.Email, new Picture { Name = user.PictureKey ?? "" }, user.Phone, (GenderCode)user.Gender).Value;
 
             return userModel;
         }
 
 
-        public async Task<List<UserModel>> GetByIdAsync(Guid[] userIds)
+        public async Task<List<UserModel>> GetByIdAsync(string[] userIds)
         {
+            var ids = userIds.Select(u => u.ToString());
+
             var users = context.Users
                 .AsNoTracking()
-                .Where(u => userIds.Contains(u.Id))
-                .Select(u => UserModel.Create(u.Id, u.Name, u.Email, new Picture { Name = u.PicturePath }, u.Phone, (GenderCode)u.Gender).Value)
+                .Where(u => ids.Contains(u.Id))
+                .Select(u => UserModel.Create(u.Id, u.Name, u.Email, new Picture { Name = u.PictureKey }, u.Phone, (GenderCode)u.Gender).Value)
                 .ToList();
 
             return users;
@@ -84,7 +86,7 @@ namespace UserService.Infrastructure.Implementations.Repositories
             var users = context.Users
                 .AsNoTracking()
                 .Where(u => u.Name.ToLower().Contains(userName))
-                .Select(u => UserModel.Create(u.Id, u.Name, u.Email, new Picture { Name = u.PicturePath }, u.Phone, (GenderCode)u.Gender).Value)
+                .Select(u => UserModel.Create(u.Id, u.Name, u.Email, new Picture { Name = u.PictureKey }, u.Phone, (GenderCode)u.Gender).Value)
                 .ToList();
 
             return users;

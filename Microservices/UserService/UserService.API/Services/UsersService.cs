@@ -10,7 +10,9 @@ namespace UserService.API.Services
     {
         public override async Task<CreateUserReply> CreateUser(CreateUserRequest request, ServerCallContext context)
         {
-            var response = await actions.CreateUserAsync(Guid.Parse(request.Id), request.Email);
+            logger.LogDebug($"Start creating user id={request.Id}..");
+
+            var response = await actions.CreateUserAsync(request.Id, request.Email);
 
             if (response.IsError)
             {
@@ -24,20 +26,9 @@ namespace UserService.API.Services
 
             return new CreateUserReply
             {
-                Info = new UserFullInfo
-                {
-                    Email = user.Email,
-                    Gender = (int)user.Gender,
-                    Id = user.Id.ToString(),
-                    Name = user.Name,
-                    PhoneNumber = user.Phone,
-                    ProfilePicture = new Picture
-                    {
-                        Byte = ByteString.CopyFrom(user.ProfilePicture.Bytes),
-                        Extension = user.ProfilePicture.Extension,
-                        Name = user.ProfilePicture.Name
-                    }
-                }
+                Email = user.Email,
+                Id = user.Id.ToString(),
+                Name = user.Name
             };
         }
 
@@ -65,7 +56,7 @@ namespace UserService.API.Services
                     Name = user.Name,
                     ProfilePicture = new Picture
                     {
-                        Byte = ByteString.CopyFrom(user.ProfilePicture.Bytes),
+                        Byte = user.ProfilePicture.Bytes == null ? ByteString.Empty : ByteString.CopyFrom(user.ProfilePicture.Bytes),
                         Extension = user.ProfilePicture.Extension,
                         Name = user.ProfilePicture.Name
                     }
@@ -77,7 +68,7 @@ namespace UserService.API.Services
 
         public override async Task<GetUserReply> GetUser(GetUserRequest request, ServerCallContext context)
         {
-            var response = await actions.GetUserAsync(Guid.Parse(request.Id));
+            var response = await actions.GetUserAsync(request.Id);
 
             if (response.IsError)
             {
@@ -100,7 +91,7 @@ namespace UserService.API.Services
                     PhoneNumber = user.Phone,
                     ProfilePicture = new Picture
                     {
-                        Byte = ByteString.CopyFrom(user.ProfilePicture.Bytes),
+                        Byte = user.ProfilePicture.Bytes == null? ByteString.Empty : ByteString.CopyFrom(user.ProfilePicture.Bytes),
                         Extension = user.ProfilePicture.Extension,
                         Name = user.ProfilePicture.Name
                     }
@@ -110,7 +101,7 @@ namespace UserService.API.Services
 
         public async override Task<GetUsersReply> GetUsers(GetUsersRequest request, ServerCallContext context)
         {
-            var response = await actions.GetUsersAsync(request.Id.Select(id => Guid.Parse(id)).ToArray());
+            var response = await actions.GetUsersAsync(request.Id.ToArray());
 
             if (response.IsError)
             {
@@ -132,7 +123,7 @@ namespace UserService.API.Services
                     Name = user.Name,
                     ProfilePicture = new Picture
                     {
-                        Byte = ByteString.CopyFrom(user.ProfilePicture.Bytes),
+                        Byte = user.ProfilePicture.Bytes == null ? ByteString.Empty : ByteString.CopyFrom(user.ProfilePicture.Bytes),
                         Extension = user.ProfilePicture.Extension,
                         Name = user.ProfilePicture.Name
                     }
@@ -145,10 +136,10 @@ namespace UserService.API.Services
         public override async Task<UpdateUserReply> UpdateUser(UpdateUserRequest request, ServerCallContext context)
         {
             var userInfo = request.Info;
-            var updatingUser = UserModel.Create(Guid.Parse(userInfo.Id),
+            var updatingUser = UserModel.Create(userInfo.Id,
                                                 userInfo.Name,
                                                 userInfo.Email,
-                                                new Core.ValueObjects.Picture
+                                                userInfo.ProfilePicture == null ? new Core.ValueObjects.Picture() : new Core.ValueObjects.Picture
                                                 {
                                                     Bytes = userInfo.ProfilePicture.Byte.ToByteArray(),
                                                     Name = userInfo.ProfilePicture.Name,

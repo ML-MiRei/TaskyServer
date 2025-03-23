@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+option csharp_namespace = "BoardService.Tests";
+
+package tasks;
+
+service Tasks {
+  rpc AddTasks (AddTasksRequest) returns (AddTasksReply);
+  rpc DeleteTask (DeleteTaskRequest) returns (DeleteTaskReply);
+  rpc ChangeSprint (ChangeSprintRequest) returns (ChangeSprintReply);
+  rpc ChangeStage (ChangeStageRequest) returns (ChangeStageReply);
+  rpc GetTasksByBoard (GetTasksByBoardRequest) returns (GetTasksByBoardReply);
+  rpc GetTasksBySprint (GetTasksBySprintRequest) returns (GetTasksBySprintReply);
+}
+
+message AddTasksRequest {
+  string board_id = 1;
+  repeated string task_ids = 2;
+  google.protobuf.Int32Value stage_id = 3;
+}
+
+message AddTasksReply {
+  string board_id = 1;
+}
+
+message DeleteTaskRequest {
+  string id = 1;
+}
+
+message DeleteTaskReply {
+  string id = 1;
+}
+
+message ChangeSprintRequest {
+  repeated string task_id = 1;
+  string board_id = 2;
+  int32 sprint_id = 3;
+}
+
+message ChangeSprintReply {
+  int32 sprint_id = 1;
+}
+
+message ChangeStageRequest {
+  string task_id = 1;
+  int32 stage_id = 2;
+}
+
+message ChangeStageReply {
+  string task_id = 1;
+}
+
+message GetTasksByBoardRequest {
+  string board_id = 1;
+}
+
+message GetTasksByBoardReply {
+  repeated TaskInfo tasks = 1;
+}
+
+message GetTasksBySprintRequest {
+  int32 sprint_id = 1;
+}
+
+message GetTasksBySprintReply {
+  repeated TaskInfo tasks = 1;
+}
+
+message TaskInfo{
+  string task_id = 1;
+  int32 sprint_id = 2;
+  int32 stage_id = 3;
+}

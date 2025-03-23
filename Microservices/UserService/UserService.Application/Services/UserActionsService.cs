@@ -9,11 +9,11 @@ namespace UserService.Application.Services
 {
     public class UserActionsService(IUserRepository repository, IImageProvider imageProvider, ILogger<UserActionsService> logger)
     {
-        public async Task<Result<UserModel>> CreateUserAsync(Guid id, string email)
+        public async Task<Result<UserModel>> CreateUserAsync(string id, string email)
         {
             var resultFactory = new ResultFactory<UserModel>();
 
-            if (id == Guid.Empty || string.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(email))
             {
                 resultFactory.AddError("Введены не все аргументы");
                 return resultFactory.Create();
@@ -33,9 +33,9 @@ namespace UserService.Application.Services
             return resultFactory.Create();
         }
 
-        public async Task<Result<Guid>> UpdateUserAsync(UserModel userModel)
+        public async Task<Result<string>> UpdateUserAsync(UserModel userModel)
         {
-            var resultFactory = new ResultFactory<Guid>();
+            var resultFactory = new ResultFactory<string>();
 
             try
             {
@@ -61,7 +61,7 @@ namespace UserService.Application.Services
             return resultFactory.Create();
         }
 
-        public async Task<Result<UserModel>> GetUserAsync(Guid id)
+        public async Task<Result<UserModel>> GetUserAsync(string id)
         {
             var resultFactory = new ResultFactory<UserModel>();
 
@@ -83,7 +83,7 @@ namespace UserService.Application.Services
         }
 
 
-        public async Task<Result<List<UserModel>>> GetUsersAsync(Guid[] ids)
+        public async Task<Result<List<UserModel>>> GetUsersAsync(string[] ids)
         {
             var resultFactory = new ResultFactory<List<UserModel>>();
 

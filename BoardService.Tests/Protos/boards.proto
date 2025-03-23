@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+option csharp_namespace = "BoardService.Tests";
+
+package boards;
+
+service Boards {
+  rpc CreateBoard (CreateBoardRequest) returns (CreateBoardReply);
+  rpc DeleteBoard (DeleteBoardRequest) returns (DeleteBoardReply);
+  rpc UpdateBoard (UpdateBoardRequest) returns (UpdateBoardReply);
+  rpc GetBoard (GetBoardRequest) returns (GetBoardReply);
+  rpc GetBoards (GetBoardsRequest) returns (GetBoardsReply);
+}
+
+message CreateBoardRequest {
+  string title = 1;
+  int32 type = 2;
+}
+
+message CreateBoardReply {
+  string id = 1;
+}
+
+message DeleteBoardRequest {
+  string id = 1;
+}
+
+message DeleteBoardReply {
+  string id = 1;
+}
+
+message UpdateBoardRequest {
+  string title = 1;
+  string id = 2;
+}
+
+message UpdateBoardReply {
+  string id = 1;
+}
+
+message GetBoardRequest {
+  string id = 1;
+}
+
+message GetBoardReply {
+  string id = 1;
+  string title = 2;
+  int32 type = 3;
+}
+
+message GetBoardsRequest {
+  repeated string id = 1;
+}
+
+message GetBoardsReply {
+  repeated BoardInfo boards = 1;
+}
+
+message BoardInfo {
+  string id = 1;
+  string title = 2;
+  int32 type = 3;
+}

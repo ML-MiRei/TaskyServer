@@ -9,20 +9,21 @@ namespace UserService.Core.Models
     {
         public const int MAX_NAME_LENGTH = 50;
 
-        public Guid Id { get; }
+        public string Id { get; }
         public string Name { get; }
         public string Email { get; }
         public string Phone { get; }
         public Picture ProfilePicture { get; private set; }
         public GenderCode Gender { get; }
 
-        private UserModel(Guid id, string name, string email, Picture profilePicture, GenderCode gender)
+        private UserModel(string id, string name, string email, Picture profilePicture, GenderCode gender, string phone)
         {
             Id = id;
             Name = name;
             Email = email;
             ProfilePicture = profilePicture;
             Gender = gender;
+            Phone = phone;
         }
 
         public static bool IsValidPhoneNumber(string phoneNumber)
@@ -63,7 +64,7 @@ namespace UserService.Core.Models
         }
 
 
-        public static Result<UserModel> Create(Guid id, string name, string email, Picture profilePicture = null, string phoneNumber = null, GenderCode gender = GenderCode.Unknown)
+        public static Result<UserModel> Create(string id, string name, string email, Picture profilePicture = null, string phoneNumber = null, GenderCode gender = GenderCode.Unknown)
         {
             var resultFactory = new ResultFactory<UserModel>();
 
@@ -80,7 +81,7 @@ namespace UserService.Core.Models
                 resultFactory.AddError("Email не может быть пустым");
 
 
-            if (phoneNumber != null)
+            if (!string.IsNullOrEmpty(phoneNumber))
             {
                 if (IsValidPhoneNumber(phoneNumber))
                     phoneNumber = FormatPhoneNumber(phoneNumber);
@@ -88,7 +89,7 @@ namespace UserService.Core.Models
                     resultFactory.AddError("Номер телефона введён неверно");
             }
 
-            var user = new UserModel(id, name, email, profilePicture, gender);
+            var user = new UserModel(id, name, email, profilePicture, gender, phoneNumber);
 
             resultFactory.SetResult(user);
 

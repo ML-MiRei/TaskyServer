@@ -18,7 +18,9 @@ message CreateUserRequest {
 }
 
 message CreateUserReply {
-  UserFullInfo info = 1;
+  string id = 1;
+  string email = 2;
+  string name = 3;
 }
 
 message UpdateUserRequest {

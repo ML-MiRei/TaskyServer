@@ -1,0 +1,71 @@
+syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "BoardService.API";
+
+package stages;
+
+service Stages {
+  rpc CreateStage (CreateStageRequest) returns (CreateStageReply);
+  rpc DeleteStage (DeleteStageRequest) returns (DeleteStageReply);
+  rpc UpdateStage (UpdateStageRequest) returns (UpdateStageReply);
+  rpc GetStage (GetStageRequest) returns (GetStageReply);
+  rpc GetStagesByBoardId (GetStagesRequest) returns (GetStagesReply);
+}
+
+message CreateStageRequest {
+  string board_id = 1;
+  string name = 2;
+  int32 queue = 3;
+  google.protobuf.Int32Value max_tasks_count = 4;
+}
+
+message CreateStageReply {
+  int32 stage_id = 1;
+}
+
+message DeleteStageRequest {
+  int32 stage_id = 1;
+}
+
+message DeleteStageReply {
+  int32 stage_id = 1;
+}
+
+message UpdateStageRequest {
+  int32 stage_id = 1;
+  string name = 2;
+  int32 queue = 3;
+  google.protobuf.Int32Value max_tasks_count = 4;
+  string board_id = 5;
+}
+
+message UpdateStageReply {
+  int32 stage_id = 1;
+}
+
+message GetStageRequest {
+  int32 stage_id = 1;
+}
+
+message GetStageReply {
+  int32 stage_id = 1;
+  string name = 2;
+  int32 queue = 3;
+  google.protobuf.Int32Value max_tasks_count = 4;
+}
+
+message GetStagesRequest {
+  string board_id = 1;
+}
+
+message GetStagesReply {
+  repeated StageInfo stages = 1;
+}
+
+message StageInfo{
+  int32 stage_id = 1;
+  string name = 2;
+  int32 queue = 3;
+  google.protobuf.Int32Value max_tasks_count = 4;
+}

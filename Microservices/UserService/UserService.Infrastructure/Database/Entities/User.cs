@@ -7,7 +7,7 @@ namespace UserService.Infrastructure.Database.Entities
     {
         [Key]
         [Required]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         public string Email { get; set; }
@@ -19,8 +19,7 @@ namespace UserService.Infrastructure.Database.Entities
         [MaxLength(50)]
         public string Name { get; set; }
 
-        [Required]
-        public string PicturePath { get; set; } = "";
+        public string? PictureKey { get; set; }
 
         [Required]
         public int Gender { get; set; } = (int)GenderCode.Unknown;

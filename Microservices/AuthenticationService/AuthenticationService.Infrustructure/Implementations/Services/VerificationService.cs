@@ -1,6 +1,5 @@
 ﻿using AuthenticationService.Applicaion.Abstractions.Services;
 using AuthenticationService.Infrastructure.Implementations.Services.Models;
-using EmailClient;
 using Grpc.Net.Client;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

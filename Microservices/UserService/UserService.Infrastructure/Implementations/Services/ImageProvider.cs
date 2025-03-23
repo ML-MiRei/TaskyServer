@@ -12,13 +12,14 @@ namespace UserService.Infrastructure.Implementations.Services
     public class ImageProvider : IImageProvider
     {
         private static ILogger<ImageProvider> _logger;
-        private static GrpcConnections _connections;
-        private FilesProvider.FilesProviderClient _client = _connections.FilesProviderClient;
+        private GrpcConnections _connections;
+        private FilesProvider.FilesProviderClient _client;
 
         public ImageProvider(ILogger<ImageProvider> logger, IOptions<ConnectionsSettings> settings)
         {
-            _logger = logger;
-            _connections = new GrpcConnections(settings.Value.FilesProviderServiceAddress);
+            //_logger = logger;
+            //_connections = new GrpcConnections(settings.Value.FilesProviderServiceAddress);
+            //_client = _connections.FilesProviderClient;
         }
 
         public async Task<Result<string>> Upload(string key, byte[] image, string fileExtension)

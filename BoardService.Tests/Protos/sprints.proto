@@ -1,0 +1,66 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "BoardService.Tests";
+
+package sprints;
+
+service Sprints {
+  rpc CreateSprint (CreateSprintRequest) returns (CreateSprintReply);
+  rpc DeleteSprint (DeleteSprintRequest) returns (DeleteSprintReply);
+  rpc UpdateSprint (UpdateSprintRequest) returns (UpdateSprintReply);
+  rpc GetSprint (GetSprintRequest) returns (GetSprintReply);
+  rpc GetSprints (GetSprintsRequest) returns (GetSprintsReply);
+}
+
+message CreateSprintRequest {
+  string board_id = 1;
+  google.protobuf.Timestamp date_start = 2;
+  google.protobuf.Timestamp date_end = 3;
+}
+
+message CreateSprintReply {
+  int32 id = 1;
+}
+
+message DeleteSprintRequest {
+  int32 id = 1;
+}
+
+message DeleteSprintReply {
+  int32 id = 1;
+}
+
+message UpdateSprintRequest {
+  int32 id = 1;
+  google.protobuf.Timestamp date_start = 2;
+  google.protobuf.Timestamp date_end = 3;
+}
+
+message UpdateSprintReply {
+  int32 id = 1;
+}
+
+message GetSprintRequest {
+  int32 id = 1;
+}
+
+message GetSprintReply {
+  int32 id = 1;
+  google.protobuf.Timestamp date_start = 2;
+  google.protobuf.Timestamp date_end = 3;
+}
+
+message GetSprintsRequest {
+  string board_id = 1;
+}
+
+message GetSprintsReply {
+  repeated SprintInfo sprints = 1;
+}
+
+message SprintInfo {
+  int32 id = 1;
+  google.protobuf.Timestamp date_start = 2;
+  google.protobuf.Timestamp date_end = 3;
+}

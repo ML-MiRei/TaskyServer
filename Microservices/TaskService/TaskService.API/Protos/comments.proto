@@ -1,0 +1,77 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "CommentService.API";
+
+package comments;
+
+service Comments {
+  rpc CreateComment (CreateCommentRequest) returns (CreateCommentReply);
+  rpc UpdateComment (UpdateCommentRequest) returns (UpdateCommentReply);
+  rpc DeleteComment (DeleteCommentRequest) returns (DeleteCommentReply);
+  rpc GetAllCommentsByTask (GetAllCommentsByProjectRequest) returns (GetAllCommentsByProjectReply);
+}
+
+message CreateCommentRequest {
+  string title = 1;
+  string details = 2;
+  string project_id = 3;
+  string parent_id = 4;
+  google.protobuf.Timestamp date_end = 5;
+}
+
+message CreateCommentReply {
+  string Comment_id = 1;
+}
+
+
+message UpdateCommentRequest {
+  string title = 1;
+  string details = 2;
+  google.protobuf.Timestamp date_end = 3;
+  string Comment_id = 4;
+}
+
+message UpdateCommentReply {
+  string Comment_id = 1;
+}
+
+
+
+message DeleteCommentRequest {
+  string Comment_id = 1;
+}
+
+message DeleteCommentReply {
+  string Comment_id = 1;
+}
+
+
+
+message GetAllCommentsByProjectRequest {
+  string project_id = 1;
+}
+
+message GetAllCommentsByProjectReply {
+  repeated CommentInfo Comments = 1;
+}
+
+
+
+message GetAllCommentsByUserRequest {
+  string user_id = 1;
+}
+
+message GetAllCommentsByUserReply {
+  repeated CommentInfo Comments = 1;
+}
+
+
+message CommentInfo{
+  string title = 1;
+  string details = 2;
+  string project_id = 3;
+  string parent_id = 4;
+  google.protobuf.Timestamp date_created = 5;
+  google.protobuf.Timestamp date_end = 6;
+}

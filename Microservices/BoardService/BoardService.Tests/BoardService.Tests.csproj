@@ -1,3 +1,4 @@
+﻿
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -30,8 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microservices\BoardService\BoardService.API\BoardService.API.csproj" />
-    <ProjectReference Include="..\Microservices\BoardService\BoardService.Infrastructure\BoardService.Infrastructure.csproj" />
+    <ProjectReference Include="..\BoardService.API\BoardService.API.csproj" />
+    <ProjectReference Include="..\BoardService.Infrastructure\BoardService.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

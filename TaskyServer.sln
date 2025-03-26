@@ -58,7 +58,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FilesProviderService", "Fil
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilesProvider", "Microservices\FilesProviderService\FilesProvider\FilesProvider.csproj", "{28F95636-9630-4398-8BF0-4A61B89ADFA3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilesProviderTests", "FilesProviderTests\FilesProviderTests.csproj", "{739738DF-2412-4546-9B7B-6AC5C63E05C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilesProviderTests", "Microservices\FilesProviderService\FilesProviderTests\FilesProviderTests.csproj", "{739738DF-2412-4546-9B7B-6AC5C63E05C0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.API", "Microservices\UserService\UserService.API\UserService.API.csproj", "{FB9A309F-B122-4E79-BF38-DF587458A3B4}"
 EndProject
@@ -66,7 +66,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotificationService", "Noti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.Tests", "Microservices\UserService\UserService.Tests\UserService.Tests.csproj", "{DCA5F8A2-1866-439A-B62D-146BC0CCB7E1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BoardService", "BoardService", "{215273BB-4CB4-4CDA-92A6-A68232736FAA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BoardService", "Microservices\BoardService", "{215273BB-4CB4-4CDA-92A6-A68232736FAA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardService.Core", "Microservices\BoardService\BoardService.Core\BoardService.Core.csproj", "{1EC63C9E-0209-4EE8-B413-7CF351648C7F}"
 EndProject
@@ -75,8 +75,21 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardService.Infrastructure", "Microservices\BoardService\BoardService.Infrastructure\BoardService.Infrastructure.csproj", "{5EA8FDB5-62BA-4415-B7F4-3CAB3F09A4A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardService.API", "Microservices\BoardService\BoardService.API\BoardService.API.csproj", "{D7E9EBF6-4716-4712-B382-32F9CF6504E5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5EA8FDB5-62BA-4415-B7F4-3CAB3F09A4A8} = {5EA8FDB5-62BA-4415-B7F4-3CAB3F09A4A8}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardService.Tests", "BoardService.Tests\BoardService.Tests.csproj", "{EBA9F1F5-6BC4-4369-A041-E5EC95DF1040}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardService.Tests", "Microservices\BoardService\BoardService.Tests\BoardService.Tests.csproj", "{EBA9F1F5-6BC4-4369-A041-E5EC95DF1040}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TaskService", "TaskService", "{DEC092DB-32E4-40E8-95FA-D47E09C54735}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskService.Core", "Microservices\TaskService\TaskService.Core\TaskService.Core.csproj", "{24A33AD2-FC94-4E55-A853-5AF3ED44E627}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskService.Application", "Microservices\TaskService\TaskService.Application\TaskService.Application.csproj", "{F2D0AB4F-F7F9-45B6-B156-17160DC01B09}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskService.Infrastructure", "Microservices\TaskService\TaskService.Infrastructure\TaskService.Infrastructure.csproj", "{F143FD89-6917-4C90-B689-6F305E7F811B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskService.API", "Microservices\TaskService\TaskService.API\TaskService.API.csproj", "{1F6C8955-3B27-4E62-A907-1495AD35F079}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -188,6 +201,22 @@ Global
 		{EBA9F1F5-6BC4-4369-A041-E5EC95DF1040}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBA9F1F5-6BC4-4369-A041-E5EC95DF1040}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBA9F1F5-6BC4-4369-A041-E5EC95DF1040}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24A33AD2-FC94-4E55-A853-5AF3ED44E627}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24A33AD2-FC94-4E55-A853-5AF3ED44E627}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24A33AD2-FC94-4E55-A853-5AF3ED44E627}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24A33AD2-FC94-4E55-A853-5AF3ED44E627}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2D0AB4F-F7F9-45B6-B156-17160DC01B09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2D0AB4F-F7F9-45B6-B156-17160DC01B09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2D0AB4F-F7F9-45B6-B156-17160DC01B09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2D0AB4F-F7F9-45B6-B156-17160DC01B09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F143FD89-6917-4C90-B689-6F305E7F811B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F143FD89-6917-4C90-B689-6F305E7F811B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F143FD89-6917-4C90-B689-6F305E7F811B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F143FD89-6917-4C90-B689-6F305E7F811B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F6C8955-3B27-4E62-A907-1495AD35F079}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F6C8955-3B27-4E62-A907-1495AD35F079}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F6C8955-3B27-4E62-A907-1495AD35F079}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F6C8955-3B27-4E62-A907-1495AD35F079}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -225,6 +254,11 @@ Global
 		{5EA8FDB5-62BA-4415-B7F4-3CAB3F09A4A8} = {215273BB-4CB4-4CDA-92A6-A68232736FAA}
 		{D7E9EBF6-4716-4712-B382-32F9CF6504E5} = {215273BB-4CB4-4CDA-92A6-A68232736FAA}
 		{EBA9F1F5-6BC4-4369-A041-E5EC95DF1040} = {215273BB-4CB4-4CDA-92A6-A68232736FAA}
+		{DEC092DB-32E4-40E8-95FA-D47E09C54735} = {371E2B00-153E-41B2-83E9-335705740980}
+		{24A33AD2-FC94-4E55-A853-5AF3ED44E627} = {DEC092DB-32E4-40E8-95FA-D47E09C54735}
+		{F2D0AB4F-F7F9-45B6-B156-17160DC01B09} = {DEC092DB-32E4-40E8-95FA-D47E09C54735}
+		{F143FD89-6917-4C90-B689-6F305E7F811B} = {DEC092DB-32E4-40E8-95FA-D47E09C54735}
+		{1F6C8955-3B27-4E62-A907-1495AD35F079} = {DEC092DB-32E4-40E8-95FA-D47E09C54735}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {37F7F6CB-BC0C-4C4A-92ED-E3118383AE5D}

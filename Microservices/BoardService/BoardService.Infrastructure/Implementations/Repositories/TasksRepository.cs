@@ -55,7 +55,6 @@ namespace BoardService.Infrastructure.Implementations.Repositories
                 task.StageId = stage.Id;
             }
 
-            //context.Tasks.UpdateRange(sprints);
             await context.SaveChangesAsync();
 
             return sprintId.Value;

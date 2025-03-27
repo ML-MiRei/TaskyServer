@@ -7,12 +7,12 @@ namespace TaskService.Core.Models
         public string? Id { get; }
         public string Title { get; }
         public string Details { get; }
-        public string ProjectId { get; }
+        public string? ProjectId { get; }
         public string? ParentId { get; }
         public DateTime DateCreated { get; }
         public DateTime? DateEnd { get; }
 
-        private TaskModel(string? id, string title, string details, string projectId, string? parentId, DateTime dateCreated, DateTime? dateEnd)
+        private TaskModel(string? id, string title, string details, string? projectId, string? parentId, DateTime dateCreated, DateTime? dateEnd)
         {
             Id = id;
             Title = title;
@@ -23,17 +23,12 @@ namespace TaskService.Core.Models
             DateEnd = dateEnd;
         }
 
-        public static Result<TaskModel> Create(string title, string details, string projectId, DateTime? dateCreated = null, string? parentId = null, DateTime? dateEnd = null, string? id = null)
+        public static Result<TaskModel> Create(string title, string details, string? projectId = null, DateTime? dateCreated = null, string? parentId = null, DateTime? dateEnd = null, string? id = null)
         {
             var resFactory = new ResultFactory<TaskModel>();
 
             title = title.Trim();
-            details = details.Trim();
-
-            if (string.IsNullOrEmpty(projectId))
-            {
-                resFactory.AddError("Id проекта не может отсутствовать");
-            }            
+            details = details.Trim();         
             
             if (string.IsNullOrEmpty(title))
             {

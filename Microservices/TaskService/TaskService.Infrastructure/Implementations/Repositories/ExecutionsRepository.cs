@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskService.Application.Abstractions.Repositories;
+using TaskService.Core.Enums;
 using TaskService.Core.Models;
 using TaskService.Infrastructure.Database;
 using TaskService.Infrastructure.Database.Entities;
@@ -24,10 +25,73 @@ namespace TaskService.Infrastructure.Implementations.Repositories
             return execution.TaskId;
         }
 
-        public async Task<ExecutionModel> GetByTaskIdAsync(string taskId)
+        public async Task<string> CreateAsync(List<ExecutionModel> executionModel)
         {
-            var execution = await context.Executions.AsNoTracking().OrderByDescending(e => e.DateStart).FirstAsync(e => e.TaskId == taskId);
-            return new ExecutionModel(execution.TaskId, execution.UserId, execution.StatusId, execution.DateStart, execution.Id);
+            await context.AddRangeAsync(executionModel.Select(e => new ExecutionEntity
+            {
+                UserId = e.UserId,
+                TaskId = e.TaskId,
+                DateStart = e.DateStart,
+                StatusId = (int)e.Status
+            }));
+            await context.SaveChangesAsync();
+
+            return executionModel[0].TaskId;
+        }
+
+        public async Task<List<ExecutionModel>> GetExecutorsByTaskIdAsync(string taskId)
+        {
+            var executions = context.Executions.AsNoTracking()
+                .Where(e => e.TaskId == taskId && e.StatusId == (int)ExecutionStatus.Started)
+                .GroupBy(e => e.UserId);
+
+            List<ExecutionModel> result = new List<ExecutionModel>();
+
+            foreach (var ex in executions)
+            {
+                var lastAction = ex.OrderByDescending(x => x.DateStart).First();
+                if (lastAction.StatusId == (int)ExecutionStatus.Started)
+                {
+                    result.Add(new ExecutionModel(lastAction.TaskId, lastAction.UserId, (ExecutionStatus)lastAction.StatusId, lastAction.DateStart, lastAction.Id));
+                }
+            }
+
+            return result;
+        }
+
+
+        public async Task<List<ExecutionModel>> GetHistoryExecutionsByTaskIdAsync(string taskId)
+        {
+            return context.Executions.AsNoTracking()
+                .Where(e => e.TaskId == taskId)
+                .Select(e => new ExecutionModel(e.TaskId, e.UserId, (ExecutionStatus)e.StatusId, e.DateStart, e.Id))
+                .ToList();
+        }
+
+        public async Task<List<ExecutionModel>> GetStateExecutionsByUserIdAsync(string userId)
+        {
+            var executions = context.Executions.AsNoTracking()
+                           .Where(e => e.UserId == userId)
+                           .GroupBy(e => e.TaskId);
+
+            List<ExecutionModel> result = new List<ExecutionModel>();
+
+            foreach (var ex in executions)
+            {
+                var lastAction = ex.OrderByDescending(x => x.DateStart).First();
+                result.Add(new ExecutionModel(lastAction.TaskId, lastAction.UserId, (ExecutionStatus)lastAction.StatusId, lastAction.DateStart, lastAction.Id));
+            }
+
+            return result;
+        }
+
+
+        public async Task<List<ExecutionModel>> GetHistoryExecutionsByUserIdAsync(string userId)
+        {
+            return context.Executions.AsNoTracking()
+                .Where(e => e.UserId == userId)
+                .Select(e => new ExecutionModel(e.TaskId, e.UserId, (ExecutionStatus)e.StatusId, e.DateStart, e.Id))
+                .ToList();
         }
     }
 }

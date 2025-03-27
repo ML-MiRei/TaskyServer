@@ -39,14 +39,14 @@ namespace TaskService.Infrastructure.Implementations.Repositories
             return taskModel.Id;
         }
 
-        public async Task<string> DeleteAsync(TaskModel taskModel)
+        public async Task<string> DeleteAsync(string taskId)
         {
-            var task = await context.Tasks.FindAsync(taskModel.Id);
+            var task = await context.Tasks.FindAsync(taskId);
 
             context.Tasks.Remove(task);
             await context.SaveChangesAsync();
 
-            return taskModel.Id;
+            return task.Id;
         }
 
         public Task<List<TaskModel>> GetAllByProjectId(string projectId)

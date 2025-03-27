@@ -26,9 +26,9 @@ namespace TaskService.Infrastructure.Implementations.Repositories
 
             return comment.Id;
         }
-        public async Task<int> DeleteAsync(CommentModel commentModel)
+        public async Task<int> DeleteAsync(int commentId)
         {
-            var comment = await context.Comments.FindAsync(commentModel.Id);
+            var comment = await context.Comments.FindAsync(commentId);
 
             context.Comments.Remove(comment);
             await context.SaveChangesAsync();
@@ -36,14 +36,22 @@ namespace TaskService.Infrastructure.Implementations.Repositories
             return comment.Id;
         }
 
-        public Task<List<CommentModel>> GetAllByTaskAsync(string task_id)
+        public Task<List<CommentModel>> GetAllByTaskAsync(string taskId)
         {
             var comments = context.Comments.AsNoTracking()
-                .Where(c => c.TaskId == task_id)
+                .Where(c => c.TaskId == taskId)
                 .Select(c => CommentModel.Create(c.UserId, c.TaskId, c.Text, c.DateCreated, c.Id).Value)
                 .ToList();
 
             return Task.FromResult(comments);
+        }
+
+        public async Task<CommentModel> GetAsync(int commentId)
+        {
+            var comment = await context.Comments.AsNoTracking()
+                .FirstAsync(c => c.Id == commentId);
+
+            return CommentModel.Create(comment.UserId, comment.TaskId, comment.Text, comment.DateCreated, comment.Id).Value;
         }
 
     }

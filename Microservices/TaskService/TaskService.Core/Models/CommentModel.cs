@@ -6,11 +6,11 @@ namespace TaskService.Core.Models
     {
         public int? Id { get; }
         public string CreatorId { get; }
-        public string TaskId { get; }
+        public string? TaskId { get; }
         public string Text { get; }
         public DateTime Created { get; }
 
-        private CommentModel(int? id, string creatorId, string taskId, string text, DateTime created)
+        private CommentModel(int? id, string creatorId, string? taskId, string text, DateTime created)
         {
             Id = id;
             CreatorId = creatorId;
@@ -19,7 +19,7 @@ namespace TaskService.Core.Models
             Created = created;
         }
 
-        public static Result<CommentModel> Create(string creatorId, string taskId, string text, DateTime? created = null, int? id = null)
+        public static Result<CommentModel> Create(string creatorId,  string text, string? taskId = null, DateTime? created = null, int? id = null)
         {
             var resFactory = new ResultFactory<CommentModel>();
 

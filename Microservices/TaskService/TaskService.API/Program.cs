@@ -1,14 +1,22 @@
-using TaskService.API.Services;
+using TaskService.Application.Abstractions.Repositories;
+using TaskService.Application.Services;
+using TaskService.Infrastructure.Database;
+using TaskService.Infrastructure.Implementations.Repositories;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.Configure<DbConnectionOptions>(builder.Configuration.GetSection("ConnectionString:TasksDb"));
+builder.Services.AddDbContext<TasksDbContext>();
+builder.Services.AddScoped<ITasksRepository, TasksRepository>();
+builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
+builder.Services.AddScoped<IExecutionsRepository, ExecutionsRepository>();
+builder.Services.AddScoped<ExecutionManager>();
 builder.Services.AddGrpc();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.MapGrpcService<GreeterService>();
-app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+//app.MapGrpcService<>();
 
 app.Run();

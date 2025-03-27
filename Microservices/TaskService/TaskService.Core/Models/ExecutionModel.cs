@@ -7,15 +7,23 @@ namespace TaskService.Core.Models
         public int? Id { get; }
         public string? TaskId { get; }
         public string UserId { get; }
-        public DateTime DateStart { get; }
-        public ExecutionStatus Status { get; set; }
+        public DateTime DateStart { get; private set; }
+        public ExecutionStatus Status
+        {
+            get => Status;
+            set
+            {
+                Status = value;
+                DateStart = DateTime.UtcNow;
+            }
+        }
 
-        public ExecutionModel(string? taskId, string userId, int statusId, DateTime? dateStart = null, int? id = null)
+        public ExecutionModel(string? taskId, string userId, ExecutionStatus statusId = ExecutionStatus.Started, DateTime? dateStart = null, int? id = null)
         {
             Id = id;
             TaskId = taskId;
             UserId = userId;
-            Status = (ExecutionStatus)statusId;
+            Status = statusId;
             DateStart = dateStart.HasValue ? dateStart.Value : DateTime.UtcNow;
         }
 

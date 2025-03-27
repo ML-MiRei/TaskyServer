@@ -66,7 +66,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotificationService", "Noti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.Tests", "Microservices\UserService\UserService.Tests\UserService.Tests.csproj", "{DCA5F8A2-1866-439A-B62D-146BC0CCB7E1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BoardService", "Microservices\BoardService", "{215273BB-4CB4-4CDA-92A6-A68232736FAA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BoardService", "BoardService", "{215273BB-4CB4-4CDA-92A6-A68232736FAA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardService.Core", "Microservices\BoardService\BoardService.Core\BoardService.Core.csproj", "{1EC63C9E-0209-4EE8-B413-7CF351648C7F}"
 EndProject
@@ -90,6 +90,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskService.Infrastructure", "Microservices\TaskService\TaskService.Infrastructure\TaskService.Infrastructure.csproj", "{F143FD89-6917-4C90-B689-6F305E7F811B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskService.API", "Microservices\TaskService\TaskService.API\TaskService.API.csproj", "{1F6C8955-3B27-4E62-A907-1495AD35F079}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskService.Tests", "Microservices\TaskService\TaskService.Tests\TaskService.Tests.csproj", "{9D3973FF-3388-4A1A-9EDE-CBFDDBCEBECB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -217,6 +219,10 @@ Global
 		{1F6C8955-3B27-4E62-A907-1495AD35F079}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F6C8955-3B27-4E62-A907-1495AD35F079}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F6C8955-3B27-4E62-A907-1495AD35F079}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D3973FF-3388-4A1A-9EDE-CBFDDBCEBECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D3973FF-3388-4A1A-9EDE-CBFDDBCEBECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D3973FF-3388-4A1A-9EDE-CBFDDBCEBECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D3973FF-3388-4A1A-9EDE-CBFDDBCEBECB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -259,6 +265,7 @@ Global
 		{F2D0AB4F-F7F9-45B6-B156-17160DC01B09} = {DEC092DB-32E4-40E8-95FA-D47E09C54735}
 		{F143FD89-6917-4C90-B689-6F305E7F811B} = {DEC092DB-32E4-40E8-95FA-D47E09C54735}
 		{1F6C8955-3B27-4E62-A907-1495AD35F079} = {DEC092DB-32E4-40E8-95FA-D47E09C54735}
+		{9D3973FF-3388-4A1A-9EDE-CBFDDBCEBECB} = {DEC092DB-32E4-40E8-95FA-D47E09C54735}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {37F7F6CB-BC0C-4C4A-92ED-E3118383AE5D}

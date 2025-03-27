@@ -1,5 +1,4 @@
-﻿using CommentService.API;
-using Google.Protobuf.WellKnownTypes;
+﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using TaskService.Application.Abstractions.Repositories;
 using TaskService.Application.Services;
@@ -78,7 +77,7 @@ namespace TaskService.API.Services
 
         public async override Task<UpdateCommentReply> UpdateComment(UpdateCommentRequest request, ServerCallContext context)
         {
-            var comment = CommentModel.Create(request.CreatorId, request.Text);
+            var comment = CommentModel.Create(request.CreatorId, request.Text, id: request.CommentId);
 
             if (comment.IsError)
             {

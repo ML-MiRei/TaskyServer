@@ -29,10 +29,10 @@ namespace TaskService.Infrastructure.Database.Entities
 
         [Required]
         [Column("date_created")]
-        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+        public DateTimeOffset DateCreated { get; set; }
 
         [Column("date_end")]
-        public DateTime? DateEnd { get; set; }
+        public DateTimeOffset? DateEnd { get; set; }
 
 
         public List<ExecutionEntity> Executions { get; set; } = new List<ExecutionEntity>();

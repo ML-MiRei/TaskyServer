@@ -23,7 +23,7 @@ namespace TaskService.Infrastructure.Implementations.Repositories
             await context.Tasks.AddAsync(task);
             await context.SaveChangesAsync();
 
-            return taskModel.Id;
+            return task.Id;
         }
 
         public async Task<string> UpdateAsync(TaskModel taskModel)
@@ -36,7 +36,7 @@ namespace TaskService.Infrastructure.Implementations.Repositories
 
             await context.SaveChangesAsync();
 
-            return taskModel.Id;
+            return task.Id;
         }
 
         public async Task<string> DeleteAsync(string taskId)
@@ -67,6 +67,13 @@ namespace TaskService.Infrastructure.Implementations.Repositories
                 .ToList();
 
             return Task.FromResult(tasks);
+        }
+
+        public async Task<TaskModel> GetAsync(string taskId)
+        {
+            var tasks = await context.Tasks.AsNoTracking().FirstAsync(t => t.Id == taskId);
+
+            return TaskModel.Create(tasks.Title, tasks.Details, tasks.ProjectId, tasks.DateCreated, tasks.ParentId, tasks.DateEnd, tasks.Id).Value;
         }
     }
 }

@@ -21,6 +21,7 @@ namespace TaskService.API.Services
             try
             {
                 var taskId = await tasksRepository.CreateAsync(taskModel.Value);
+                Console.WriteLine("id = " + taskId);
                 return new CreateTaskReply { TaskId = taskId };
             }
             catch (Exception ex)
@@ -91,6 +92,29 @@ namespace TaskService.API.Services
                 }));
 
                 return reply;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                throw new RpcException(new Status(StatusCode.Internal, ErrorMessagesConsts.INTERNAL_ERROR_MESSAGE));
+            }
+        }
+
+        public async override Task<GetTaskReply> GetTask(GetTaskRequest request, ServerCallContext context)
+        {
+            try
+            {
+                var tasks = await tasksRepository.GetAsync(request.TaskId);
+
+                return new GetTaskReply {
+                    TaskId = tasks.Id,
+                    DateCreated = Timestamp.FromDateTimeOffset(tasks.DateCreated),
+                    DateEnd = tasks.DateEnd.HasValue ? Timestamp.FromDateTimeOffset(tasks.DateEnd.Value) : null,
+                    Details = tasks.Details,
+                    ParentId = tasks.ParentId,
+                    ProjectId = tasks.ProjectId,
+                    Title = tasks.Title
+                };
             }
             catch (Exception ex)
             {

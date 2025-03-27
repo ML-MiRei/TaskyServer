@@ -9,10 +9,10 @@ namespace TaskService.Core.Models
         public string Details { get; }
         public string? ProjectId { get; }
         public string? ParentId { get; }
-        public DateTime DateCreated { get; }
-        public DateTime? DateEnd { get; }
+        public DateTimeOffset DateCreated { get; }
+        public DateTimeOffset? DateEnd { get; }
 
-        private TaskModel(string? id, string title, string details, string? projectId, string? parentId, DateTime dateCreated, DateTime? dateEnd)
+        private TaskModel(string? id, string title, string details, string? projectId, string? parentId, DateTimeOffset dateCreated, DateTimeOffset? dateEnd)
         {
             Id = id;
             Title = title;
@@ -23,7 +23,7 @@ namespace TaskService.Core.Models
             DateEnd = dateEnd;
         }
 
-        public static Result<TaskModel> Create(string title, string details, string? projectId = null, DateTime? dateCreated = null, string? parentId = null, DateTime? dateEnd = null, string? id = null)
+        public static Result<TaskModel> Create(string title, string details, string? projectId = null, DateTimeOffset? dateCreated = null, string? parentId = null, DateTimeOffset? dateEnd = null, string? id = null)
         {
             var resFactory = new ResultFactory<TaskModel>();
 
@@ -41,7 +41,7 @@ namespace TaskService.Core.Models
                 return resFactory.Create();
             }
 
-            dateCreated = dateCreated.HasValue ? dateCreated.Value : DateTime.UtcNow;
+            dateCreated = dateCreated.HasValue ? dateCreated.Value : DateTimeOffset.UtcNow;
 
             resFactory.SetResult(new TaskModel(id, title, details, projectId, parentId, dateCreated.Value, dateEnd));
 

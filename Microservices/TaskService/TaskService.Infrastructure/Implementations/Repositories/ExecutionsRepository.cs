@@ -42,7 +42,7 @@ namespace TaskService.Infrastructure.Implementations.Repositories
         public async Task<List<ExecutionModel>> GetExecutorsByTaskIdAsync(string taskId)
         {
             var executions = context.Executions.AsNoTracking()
-                .Where(e => e.TaskId == taskId && e.StatusId == (int)ExecutionStatus.Started)
+                .Where(e => e.TaskId == taskId)
                 .GroupBy(e => e.UserId);
 
             List<ExecutionModel> result = new List<ExecutionModel>();

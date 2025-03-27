@@ -8,12 +8,14 @@ namespace TaskService.Core.Models
         public string? TaskId { get; }
         public string UserId { get; }
         public DateTime DateStart { get; private set; }
+
+        private ExecutionStatus _status;
         public ExecutionStatus Status
         {
-            get => Status;
+            get => _status;
             set
             {
-                Status = value;
+                _status = value;
                 DateStart = DateTime.UtcNow;
             }
         }

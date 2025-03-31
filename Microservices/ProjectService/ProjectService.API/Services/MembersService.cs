@@ -1,22 +1,21 @@
 ﻿using Grpc.Core;
 using ProjectService.Application.Abstractions.Repositories;
+using ProjectService.Application.Abstractions.Services;
 using ProjectService.Core.Common;
 using ProjectService.Core.Enums;
 using ProjectService.Core.Models;
 
 namespace ProjectService.API.Services
 {
-    public class MembersService(IMembersRepository membersRepository, ILogger<MembersService> logger) : Members.MembersBase
+    public class MembersService(IMembersRepository membersRepository, MembersManager membersManager, ILogger<MembersService> logger) : Members.MembersBase
     {
         public async override Task<AddMemberReply> AddMember(AddMemberRequest request, ServerCallContext context)
         {
             try
             {
-                var user = await membersRepository.AddAsync(new MemberModel(request.UserId, request.ProjectId, new RoleModel((int)MemberRoles.Observer, MemberRoles.Observer.ToString()))); // change on const
+                var user = await membersManager.AddMemberAsync(new MemberModel(request.UserId, request.ProjectId));
 
-                // notificate / +- kafka
                 return new AddMemberReply { UserId = request.UserId, ProjectId = request.ProjectId };
-
             }
             catch (Exception ex)
             {
@@ -29,17 +28,13 @@ namespace ProjectService.API.Services
         {
             try
             {
-                var user = await membersRepository.UpdateRoleAsync(new MemberModel(request.UserId, request.ProjectId, new RoleModel(request.RoleId, "")));
-
-                // notificate / +- kafka
-                return new ChangeMemberRoleReply { UserId = request.UserId, ProjectId = request.ProjectId};
-
+                var user = await membersManager.ChangeMemberRoleAsync(new MemberModel(request.UserId, request.ProjectId, new RoleModel(request.RoleId, "")));
+                return new ChangeMemberRoleReply { UserId = request.UserId, ProjectId = request.ProjectId };
             }
             catch (Exception ex)
             {
                 logger.LogError(ex.Message);
                 throw new RpcException(new Status(StatusCode.Internal, ErrorMessagesConsts.SAVE_ERROR_MESSAGE));
-
             }
 
         }
@@ -49,18 +44,14 @@ namespace ProjectService.API.Services
 
             try
             {
-                var deletedUser = await membersRepository.DeleteAsync(new MemberModel(request.UserId, request.ProjectId));
-                // notificate / +- kafka
-
+                var deletedUser = await membersManager.DeleteMemberAsync(new MemberModel(request.UserId, request.ProjectId));
                 return new DeleteMemberRequest { ProjectId = request.ProjectId, UserId = request.UserId };
             }
             catch (Exception ex)
             {
                 logger.LogError(ex.Message);
                 throw new RpcException(new Status(StatusCode.Internal, ErrorMessagesConsts.DELETE_ERROR_MESSAGE));
-
             }
-
         }
 
         public async override Task<GetMembersReply> GetMembers(GetMembersRequest request, ServerCallContext context)
@@ -78,7 +69,6 @@ namespace ProjectService.API.Services
             {
                 logger.LogError(ex.Message);
                 throw new RpcException(new Status(StatusCode.Internal, ErrorMessagesConsts.INTERNAL_ERROR_MESSAGE));
-
             }
         }
 
@@ -87,14 +77,12 @@ namespace ProjectService.API.Services
             try
             {
                 var role = await membersRepository.GetRoleAsync(new MemberModel(request.UserId, request.ProjectId));
-
-                return new GetMemberRoleReply {  RoleId = role.Id, Name = role.Name };
+                return new GetMemberRoleReply { RoleId = role.Id, Name = role.Name };
             }
             catch (Exception ex)
             {
                 logger.LogError(ex.Message);
                 throw new RpcException(new Status(StatusCode.Internal, ErrorMessagesConsts.INTERNAL_ERROR_MESSAGE));
-
             }
         }
     }

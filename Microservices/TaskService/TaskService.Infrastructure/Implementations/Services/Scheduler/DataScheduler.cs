@@ -1,8 +1,7 @@
 ﻿using Quartz;
 using Quartz.Impl;
-using TaskService.Infrastructure.Implementations.Services.Scheduler;
 
-namespace NotificationService.Infrastructure.Implementations.Services.Scheduler
+namespace TaskService.Infrastructure.Implementations.Services.Scheduler
 {
     public static class DataScheduler
     {

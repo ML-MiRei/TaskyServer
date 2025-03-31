@@ -1,7 +1,9 @@
-﻿namespace ProjectService.Application.Abstractions.Services
+﻿using ProjectService.Application.Dtos;
+
+namespace ProjectService.Application.Abstractions.Services
 {
     public interface INotificationService
     {
-        public void SendMessageAsync(string title, string body);
+        void SendNotification(MessageModel messageModel);
     }
 }

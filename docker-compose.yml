@@ -26,6 +26,24 @@ services:
     container_name: user_service_container
     depends_on:
         - user_db
+  board_service:
+    build:
+        dockerfile: Microservices/BoardService/BoardService.API/Dockerfile
+        context: .
+    ports:
+        - "8085:8085"
+    container_name: board_service_container
+    depends_on:
+        - board_db
+  task_service:
+    build:
+        dockerfile: Microservices/TaskService/TaskService.API/Dockerfile
+        context: .
+    ports:
+        - "8086:8086"
+    container_name: task_service_container
+    depends_on:
+        - task_db
   auth_db:
     image: postgres:latest  
     ports:
@@ -56,6 +74,26 @@ services:
     volumes:
         - user_db_data:/var/lib/postgresql/data
     container_name: user_db_container
+  board_db:
+    image: postgres:latest  
+    ports:
+        - "5433:5433"
+    environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: q1w
+    volumes:
+        - board_db_data:/var/lib/postgresql/data
+    container_name: board_db_container
+  task_db:
+    image: postgres:latest  
+    ports:
+        - "5433:5433"
+    environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: q1w
+    volumes:
+        - task_db_data:/var/lib/postgresql/data
+    container_name: task_db_container
   email_service:
     build:
         dockerfile: Microservices/EmailService/EmailService/Dockerfile
@@ -67,3 +105,5 @@ volumes:
     auth_db_data:
     project_db_data:
     user_db_data:
+    board_db_data:
+    task_db_data:

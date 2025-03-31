@@ -1,22 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectService.Infrastructure.Database.Entities
 {
+    [Table("members")]
     public class MemberEntity
     {
         [Required]
-        public Guid UserId { get; set; }
+        [Column("user_id")]
+        public string UserId { get; set; }
 
         [Required]
-        public Guid ProjectId {  get; set; }
+        [Column("project_id")]
+        public string ProjectId {  get; set; }
         public ProjectEntity Project { get; set; }
 
         [Required]
+        [Column("role_id")]
         public int RoleId { get; set; }
         public RoleEntity Role { get; set; }
-
-        public List<CommentEntity> Comments { get; set; } = new List<CommentEntity>();
-        public List<ProjectTaskEntity> ProjectTasks { get; set; } = new List<ProjectTaskEntity>();
 
     }
 }

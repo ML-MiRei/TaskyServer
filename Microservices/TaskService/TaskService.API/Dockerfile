@@ -12,10 +12,10 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["TaskService.API/TaskService.API.csproj", "TaskService.API/"]
-RUN dotnet restore "./TaskService.API/TaskService.API.csproj"
+COPY ["Microservices/TaskService/TaskService.API/TaskService.API.csproj", "TaskService.API/"]
+RUN dotnet restore "./Microservices/TaskService/TaskService.API/TaskService.API.csproj"
 COPY . .
-WORKDIR "/src/TaskService.API"
+WORKDIR "/src/Microservices/TaskService/TaskService.API"
 RUN dotnet build "./TaskService.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Этот этап используется для публикации проекта службы, который будет скопирован на последний этап

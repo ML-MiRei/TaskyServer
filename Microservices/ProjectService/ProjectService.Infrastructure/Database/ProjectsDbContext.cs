@@ -8,11 +8,9 @@ namespace ProjectService.Infrastructure.Database
     {
 
         public DbSet<ProjectEntity> Projects { get; set; }
-        public DbSet<ProjectTaskEntity> ProjectTasks { get; set; }
-        public DbSet<SprintEntity> Sprints { get; set; }
+        public DbSet<BoardEntity> Boards { get; set; }
         public DbSet<MemberEntity> Members { get; set; }
-        public DbSet<CommentEntity> Comments { get; set; }
-        public DbSet<StatusTaskEntity> Statuses { get; set; }
+        public DbSet<RoleEntity> Roles { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -24,7 +22,6 @@ namespace ProjectService.Infrastructure.Database
                 optionsBuilder.UseNpgsql(options.Value.GetConnectionString());
             }
 
-            Database.EnsureCreated();
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -33,44 +30,11 @@ namespace ProjectService.Infrastructure.Database
 
 
             mb.Entity<ProjectEntity>().HasKey(p => p.Id);
-            mb.Entity<ProjectTaskEntity>().HasKey(p =>  p.Id);
-            mb.Entity<SprintEntity>().HasKey(p => p.Id );
-            mb.Entity<MemberEntity>().HasKey(m => m.UserId);
-            mb.Entity<CommentEntity>().HasKey(c => c.Id);
-            mb.Entity<StatusTaskEntity>().HasKey(c => c.Id );
-            mb.Entity<FileEntity>().HasKey(c => c.Id);
+            mb.Entity<BoardEntity>().HasKey(p => new {p.BoardId, p.ProjectId} );
+            mb.Entity<MemberEntity>().HasKey(m => new { m.UserId, m.ProjectId });
             mb.Entity<RoleEntity>().HasKey(c => c.Id);
 
 
-            mb.Entity<ProjectTaskEntity>().HasOne(pt => pt.Project)
-                                          .WithMany(p => p.ProjectTasks)
-                                          .HasForeignKey(p => p.ProjectId)
-                                          .IsRequired(false)
-                                          .OnDelete(DeleteBehavior.Cascade);
-            mb.Entity<ProjectTaskEntity>().HasOne(pt => pt.Member)
-                                          .WithMany(m => m.ProjectTasks)
-                                          .HasForeignKey(m => m.ExecutorId)
-                                          .IsRequired(false)
-                                          .OnDelete(DeleteBehavior.SetNull);
-            mb.Entity<ProjectTaskEntity>().HasOne(pt => pt.Sprint)
-                                          .WithMany(s => s.ProjectTasks)
-                                          .HasForeignKey(s => s.SprintId)
-                                          .IsRequired(false)
-                                          .OnDelete(DeleteBehavior.SetNull);
-            mb.Entity<ProjectTaskEntity>().HasOne(pt => pt.Status)
-                                          .WithMany(s => s.ProjectTasks)
-                                          .HasForeignKey(s => s.StatusId)
-                                          .IsRequired()
-                                          .OnDelete(DeleteBehavior.NoAction);
-
-            mb.Entity<CommentEntity>().HasOne(c => c.ProjectTask)
-                                      .WithMany(p => p.Comments)
-                                      .HasForeignKey(p => new { p.ProjectId, p.ProjectTaskId, p.Id })
-                                      .OnDelete(DeleteBehavior.Cascade);
-            mb.Entity<CommentEntity>().HasOne(c => c.Member)
-                                      .WithMany(p => p.Comments)
-                                      .HasForeignKey(p => p.AuthorId)
-                                      .OnDelete(DeleteBehavior.NoAction);
 
             mb.Entity<MemberEntity>().HasOne(m => m.Project)
                                      .WithMany(p => p.Members)
@@ -82,21 +46,10 @@ namespace ProjectService.Infrastructure.Database
                                      .HasForeignKey(p => p.RoleId)
                                      .IsRequired();
 
-            mb.Entity<SprintEntity>().HasOne(c => c.Project)
+            mb.Entity<BoardEntity>().HasOne(c => c.Project)
                                      .WithMany(p => p.Sprints)
                                      .HasForeignKey(p => p.ProjectId)
                                      .OnDelete(DeleteBehavior.Cascade);
-
-            mb.Entity<FileEntity>().HasOne(pt => pt.ProjectTask)
-                                   .WithMany(s => s.Files)
-                                   .HasForeignKey(s => s.ProjectTaskId)
-                                   .IsRequired(false)
-                                   .OnDelete(DeleteBehavior.SetNull);
-            mb.Entity<FileEntity>().HasOne(pt => pt.Project)
-                                   .WithMany(s => s.Files)
-                                   .HasForeignKey(s => s.ProjectId)
-                                   .IsRequired()
-                                   .OnDelete(DeleteBehavior.Cascade);
 
 
             base.OnModelCreating(mb);

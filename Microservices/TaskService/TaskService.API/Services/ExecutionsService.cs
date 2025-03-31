@@ -1,6 +1,5 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using System;
 using TaskService.Application.Abstractions.Repositories;
 using TaskService.Application.Services;
 using TaskService.Core.Common;

@@ -10,17 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\member.proto" />
-    <None Remove="Protos\project_task.proto" />
-    <None Remove="Protos\sprint.proto" />
+    <None Remove="Protos\boards.proto" />
+    <None Remove="Protos\members.proto" />
     <None Remove="Protos\sprint.proto~RF7a1fa.TMP" />
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\sprint.proto" GrpcServices="Server" />
-    <Protobuf Include="Protos\project_task.proto" GrpcServices="Server" />
-    <Protobuf Include="Protos\member.proto" GrpcServices="Server" />
-    <Protobuf Include="Protos\project.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\boards.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\members.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\projects.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>

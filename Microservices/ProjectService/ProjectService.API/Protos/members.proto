@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+option csharp_namespace = "ProjectService.API";
+
+package members;
+
+service Members {
+  rpc AddMember (AddMemberRequest) returns (AddMemberReply);
+  rpc DeleteMember (DeleteMemberRequest) returns (DeleteMemberRequest);
+  rpc ChangeMemberRole (ChangeMemberRoleRequest) returns (ChangeMemberRoleReply);
+  rpc GetMembers (GetMembersRequest) returns (GetMembersReply);
+  rpc GetMemberRole (GetMemberRoleRequest) returns (GetMemberRoleReply);
+}
+
+message AddMemberRequest {
+  string project_id = 1;
+  string user_id = 2;
+}
+
+message AddMemberReply {
+  string project_id = 1;
+  string user_id = 2;
+}
+
+message DeleteMemberRequest{
+	string project_id = 1;
+	string user_id = 2;
+}
+
+message DeleteMemberReply{
+	string project_id = 1;
+	string user_id = 2;
+}
+
+message ChangeMemberRoleRequest{
+	string project_id = 1;
+	string user_id = 2;
+	int32 role_id = 3;
+}
+
+message ChangeMemberRoleReply{
+	string project_id = 1;
+	string user_id = 2;
+}
+
+message GetMembersRequest{
+	string project_id = 1;
+}
+
+message GetMembersReply{
+	repeated MemberInfo members = 1;
+}
+
+
+message GetMemberRoleRequest{
+	string project_id = 1;
+	string user_id = 2;
+}
+
+message GetMemberRoleReply{
+	int32 role_id = 1;
+	string name = 2;
+}
+
+
+message MemberInfo{
+	string user_id =1;
+	RoleInfo role = 2;
+}
+
+message RoleInfo{
+	int32 role_id = 1;
+	string name = 2;
+}

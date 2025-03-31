@@ -1,25 +1,16 @@
-﻿using ProjectService.Core.Common;
-
-namespace ProjectService.Core.Models
+﻿namespace ProjectService.Core.Models
 {
-    public class MemberModel: BaseModel
+    public class MemberModel
     {
-        public Guid Id { get; private set; }
-        public string? Name { get; private set; }
-        public string? PicturePath { get; private set; }
-        public int RoleID {  get; private set; } 
+        public string Id { get; private set; }
+        public string ProjectId { get; private set; }
+        public RoleModel Role {  get; private set; }
 
-
-        public MemberModel(Guid? id, int roleId, string? name = null, string? picturePath = null)
+        public MemberModel(string id, string projectId, RoleModel? role = null)
         {
-            Id = id.HasValue? id.Value : Guid.NewGuid();
-            Name = name;
-            PicturePath = picturePath;
-            RoleID = roleId;
+            Id = id;
+            ProjectId = projectId;
+            Role = role;
         }
-
-
-        public void SetName(string name) => Name = name;
-        public void SetPicturePath(string picturePath) => PicturePath = picturePath;
     }
 }

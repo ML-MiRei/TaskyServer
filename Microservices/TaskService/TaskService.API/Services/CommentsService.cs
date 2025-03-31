@@ -21,7 +21,7 @@ namespace TaskService.API.Services
 
             try
             {
-                var commentId = await commentsRepository.CreateAsync(comment.Value);
+                var commentId = await commentsManager.CreateComment(comment.Value);
                 return new CreateCommentReply { CommentId = commentId };
             }
             catch (Exception ex)

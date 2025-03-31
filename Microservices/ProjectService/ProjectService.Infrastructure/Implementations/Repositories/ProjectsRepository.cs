@@ -1,80 +1,71 @@
-﻿using ProjectService.Application.Abstractions.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjectService.Application.Abstractions.Repositories;
 using ProjectService.Core.Models;
 using ProjectService.Infrastructure.Database;
 using ProjectService.Infrastructure.Database.Entities;
-using System.Data.Entity;
 
 namespace ProjectService.Infrastructure.Implementations.Repositories
 {
     public class ProjectsRepository(ProjectsDbContext context) : IProjectsRepository
     {
-        public async Task<Guid> CreateAsync(ProjectModel model)
+        public async Task<string> CreateAsync(ProjectModel model)
         {
             var project = new ProjectEntity
             {
-                Name = model.Name,
-                Description = model.Description
+                Title = model.Title,
+                Details = model.Details,
+                Id = model.Id
             };
 
             await context.AddAsync(project);
             await context.SaveChangesAsync();
-            
+
             return project.Id;
         }
 
-        public async Task<Guid> DeleteAsync(Guid id)
+        public async Task<string> DeleteAsync(string id)
         {
             var deletingProject = context.Projects.FirstOrDefault(p => p.Id == id);
+
             context.Projects.Remove(deletingProject);
             await context.SaveChangesAsync();
+
             return deletingProject.Id;
         }
 
-        public Task<List<ProjectModel>> GetAllAsync(Guid userId)
+        public Task<List<ProjectModel>> GetAllAsync(string userId)
         {
             var res = context.Projects
                             .AsNoTracking()
-                            .Join(context.Members, p => p.Id, m => m.ProjectId, (p, m) => new { m.UserId, model = EntityToModel(p) })
-                            .Where(p => p.UserId == userId)
-                            .Select(p => p.model)
+                            .Where(p => p.Members.Any(m => m.UserId == userId))
+                            .Select(m => ProjectModel.Create(m.Title, m.Details, m.Id).Value)
                             .ToList();
 
             return Task.FromResult(res);
         }
 
-        public Task<ProjectModel> GetByIdAsync(Guid id)
+        public async Task<ProjectModel?> GetByIdAsync(string id)
         {
-            var res = context.Projects
+            var project = await context.Projects
                 .AsNoTracking()
-                .FirstOrDefault(p => p.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-            return Task.FromResult(EntityToModel(res));
+            return project == null ? null : ProjectModel.Create(project.Title, project.Details, project.Id).Value;
         }
 
-        public async Task<Guid> UpdateAsync( ProjectModel model)
+        public async Task<string?> UpdateAsync(ProjectModel model)
         {
-            var project = context.Projects
-                .AsNoTracking()
-                .FirstOrDefault(p => p.Id == model.Id);
+            var project = context.Projects.Find(model.Id);
 
-            project.Name = project.Name;
-            project.Description = project.Description;
+            if (project == null)
+                return null;
 
-            context.Update(project);
+            project.Title = model.Title;
+            project.Details = model.Details;
+
             await context.SaveChangesAsync();
 
             return project.Id;
-        }
-
-
-        private ProjectModel EntityToModel(ProjectEntity p)
-        {
-            var res = ProjectModel.Create(
-                id: p.Id,
-                name: p.Name,
-                description: p.Description).Value;
-
-            return res;
         }
 
     }

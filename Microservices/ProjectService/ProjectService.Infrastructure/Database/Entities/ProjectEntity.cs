@@ -3,20 +3,23 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProjectService.Infrastructure.Database.Entities
 {
+    [Table("projects")]
     public class ProjectEntity
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        [Key]
+        [Column("project_id")]
+        public string Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
-        public string? Description { get; set; }
+        [Column("title")]
+        public string Title { get; set; }
+
+        [Column("details")]
+        public string? Details { get; set; }
 
 
-        public List<ProjectTaskEntity> ProjectTasks { get; set; } = new List<ProjectTaskEntity>();
-        public List<SprintEntity> Sprints { get; set; } = new List<SprintEntity>();
+        public List<BoardEntity> Sprints { get; set; } = new List<BoardEntity>();
         public List<MemberEntity> Members { get; set; } = new List<MemberEntity> ();
-        public List<FileEntity> Files { get; set; } = new List<FileEntity> ();
 
     }
 }

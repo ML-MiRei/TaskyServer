@@ -1,95 +1,77 @@
 using Grpc.Core;
 using ProjectService.Application.Abstractions.Repositories;
+using ProjectService.Core.Common;
+using ProjectService.Core.Enums;
 using ProjectService.Core.Models;
 
 namespace ProjectService.API.Services
 {
     public class ProjectsService(ILogger<ProjectsService> logger,
                                  IProjectsRepository projectsRepository,
-                                 IMembersRepository membersRepository,
-                                 IProjectTasksRepository projectTasksRepository) : Projects.ProjectsBase
+                                 IMembersRepository membersRepository) : Projects.ProjectsBase
     {
 
         public override async Task<CreateProjectReply> CreateProject(CreateProjectRequest request, ServerCallContext context)
         {
-            var projectRes = ProjectModel.Create(request.Name, description: request.Description);
-            if (!projectRes.IsSuccess)
+            var projectRes = ProjectModel.Create(request.Title, request.Details);
+
+            if (projectRes.IsError)
             {
-                logger.LogDebug($"Project is not created, errors: {string.Join(',', projectRes.Errors)}");
-                throw new RpcException(new Status(StatusCode.InvalidArgument, string.Join(',', projectRes.Errors)));
+                logger.LogDebug(projectRes.StringErrors);
+                throw new RpcException(new Status(StatusCode.InvalidArgument, projectRes.StringErrors));
             }
 
             try
             {
                 var newProject = projectRes.Value;
                 var projectId = await projectsRepository.CreateAsync(newProject);
-                logger.LogDebug($"Project {projectId} created");
 
-                // change role id on const
+                Console.WriteLine("id = " + projectId);
 
-                await membersRepository.AddAsync(newProject.Id, new MemberModel(Guid.Parse(request.UserId), 1));
+                await membersRepository.AddAsync(new MemberModel(request.UserId, projectId, new RoleModel((int)MemberRoles.Admin, MemberRoles.Admin.ToString())));
                 return new CreateProjectReply { ProjectId = newProject.Id.ToString() };
 
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
-                throw new RpcException(new Status(StatusCode.Internal, "Ошибка сохранения. Повторите попытку позже"));
+                logger.LogError(ex.ToString());
+                throw new RpcException(new Status(StatusCode.Internal, ErrorMessagesConsts.SAVE_ERROR_MESSAGE));
             }
         }
 
         public async override Task<DeleteProjectReply> DeleteProject(DeleteProjectRequest request, ServerCallContext context)
         {
-
             try
             {
-                var deletedProjectId = await projectsRepository.DeleteAsync(Guid.Parse(request.ProjectId));
+                var deletedProjectId = await projectsRepository.DeleteAsync(request.ProjectId);
 
                 // notificate / +- kafka
 
-                return new DeleteProjectReply { ProjectId = deletedProjectId.ToString() };
+                return new DeleteProjectReply { ProjectId = deletedProjectId };
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
-                throw new RpcException(new Status(StatusCode.Internal, "Ошибка удаления. Повторите попытку позже"));
+                logger.LogError(ex.ToString());
+                throw new RpcException(new Status(StatusCode.Internal, ErrorMessagesConsts.DELETE_ERROR_MESSAGE));
 
             }
-
         }
 
         public async override Task<GetAllProjectsReply> GetAllProjects(GetAllProjectsRequest request, ServerCallContext context)
         {
-
             try
             {
-                var models = await projectsRepository.GetAllAsync(Guid.Parse(request.UserId));
-                ProjectShortInfo projectShortInfo = new ProjectShortInfo();
-                var projects = new GetAllProjectsReply();
+                var projects = await projectsRepository.GetAllAsync(request.UserId);
+                var reply = new GetAllProjectsReply();
 
-                projects.Projects.AddRange(models.Select(m =>
-                {
-                    Task<int> count = Task.Run(() => projectTasksRepository.GetSuccessAsync(m.Id));
-                    Task<int> countDone = Task.Run(() => projectTasksRepository.GetCountAsync(m.Id));
+                reply.Projects.AddRange(projects.Select(p => new ProjectShortInfo { Id = p.Id, Title = p.Title, Details = p.Details }));
 
-                    Task.WaitAll(count, countDone);
-
-                    return new ProjectShortInfo
-                    {
-                        Id = m.Id.ToString(),
-                        Name = m.Name,
-                        ProcentDoneTasks = Math.Round(Convert.ToDouble(count.Result / 100 * countDone.Result), 1),
-                        CountTasks = count.Result
-                    };
-                }));
-
-                return projects;
+                return reply;
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
-                throw new RpcException(new Status(StatusCode.Internal, "Ошибка получения данных. Повторите попытку позже"));
-
+                logger.LogError(ex.ToString());
+                throw new RpcException(new Status(StatusCode.Internal, ErrorMessagesConsts.INTERNAL_ERROR_MESSAGE));
             }
         }
 
@@ -97,24 +79,28 @@ namespace ProjectService.API.Services
         {
             try
             {
-                var model = await projectsRepository.GetByIdAsync(Guid.Parse(request.ProjectId));
-                return new GetProjectReply { Description = model.Description, Name = model.Name, Id = model.Id.ToString() };
+                var project = await projectsRepository.GetByIdAsync(request.ProjectId);
+
+                if (project != null)
+                    return new GetProjectReply { Details = project.Details, Title = project.Title, Id = project.Id };
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
-                throw new RpcException(new Status(StatusCode.Internal, "Ошибка получения данных. Повторите попытку позже"));
+                logger.LogError(ex.ToString());
+                throw new RpcException(new Status(StatusCode.Internal, ErrorMessagesConsts.INTERNAL_ERROR_MESSAGE));
             }
 
+            throw new RpcException(new Status(StatusCode.NotFound, ErrorMessagesConsts.NOT_FOUND_ERROR_MESSAGE));
         }
 
         public async override Task<UpdateProjectReply> UpdateProject(UpdateProjectRequest request, ServerCallContext context)
         {
+            var projectRes = ProjectModel.Create(request.Title, request.Details, request.Id);
 
-            var projectRes = ProjectModel.Create(request.Name, description: request.Description);
-            if (!projectRes.IsSuccess)
+            if (projectRes.IsError)
             {
-                throw new RpcException(new Status(StatusCode.InvalidArgument, string.Join(',', projectRes.Errors)));
+                logger.LogDebug(projectRes.StringErrors);
+                throw new RpcException(new Status(StatusCode.InvalidArgument, projectRes.StringErrors));
             }
 
             try
@@ -124,14 +110,17 @@ namespace ProjectService.API.Services
 
                 // notificate / +- kafka
 
-                return new UpdateProjectReply { ProjectId = newProject.Id.ToString() };
+                if (projectId != null)
+                    return new UpdateProjectReply { ProjectId = newProject.Id };
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
-                throw new RpcException(new Status(StatusCode.Internal, "Ошибка сохранения. Повторите попытку позже"));
+                logger.LogError(ex.ToString());
+                throw new RpcException(new Status(StatusCode.Internal, ErrorMessagesConsts.SAVE_ERROR_MESSAGE));
 
             }
+
+            throw new RpcException(new Status(StatusCode.NotFound, ErrorMessagesConsts.NOT_FOUND_ERROR_MESSAGE));
         }
     }
 }

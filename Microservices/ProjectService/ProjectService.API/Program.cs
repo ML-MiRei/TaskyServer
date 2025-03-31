@@ -7,18 +7,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
+builder.Services.Configure<DbConnectionOptions>(builder.Configuration.GetSection("ConnectionString:ProjectDb"));
 builder.Services.AddDbContext<ProjectsDbContext>();
-builder.Services.AddSingleton<IProjectsRepository, ProjectsRepository>();
-builder.Services.AddSingleton<IMembersRepository, MembersRepository>();
-builder.Services.AddSingleton<IProjectTasksRepository, ProjectTaskRepository>();
-builder.Services.AddSingleton<ISprintsRepository, SprintsRepository>();
+builder.Services.AddScoped<IProjectsRepository, ProjectsRepository>();
+builder.Services.AddScoped<IMembersRepository, MembersRepository>();
+builder.Services.AddScoped<IBoardsRepository, BoardsRepository>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.MapGrpcService<ProjectsService>();
-app.MapGrpcService<SprintsService>();
+app.MapGrpcService<BoardsService>();
 app.MapGrpcService<MembersService>();
-app.MapGrpcService<ProjectTasksService>();
 
 app.Run();

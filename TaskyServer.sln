@@ -91,7 +91,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskService.Infrastructure"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskService.API", "Microservices\TaskService\TaskService.API\TaskService.API.csproj", "{1F6C8955-3B27-4E62-A907-1495AD35F079}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskService.Tests", "Microservices\TaskService\TaskService.Tests\TaskService.Tests.csproj", "{9D3973FF-3388-4A1A-9EDE-CBFDDBCEBECB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskService.Tests", "Microservices\TaskService\TaskService.Tests\TaskService.Tests.csproj", "{9D3973FF-3388-4A1A-9EDE-CBFDDBCEBECB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectService.Tests", "ProjectService.Tests\ProjectService.Tests.csproj", "{3D109A9F-814B-4BEA-8C1A-8C8A0B3CAC6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Core", "NotificationService.Core\NotificationService.Core.csproj", "{822CFF75-E57D-413F-BADF-F43139A6F624}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Application", "NotificationService.Application\NotificationService.Application.csproj", "{80C93A01-C8F0-479D-9EF4-CA5ADD7C21AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Infrastructure", "NotificationService.Infrastructure\NotificationService.Infrastructure.csproj", "{EE937DD8-994A-4C0A-9AF3-5E0DCB1855AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -223,6 +231,22 @@ Global
 		{9D3973FF-3388-4A1A-9EDE-CBFDDBCEBECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D3973FF-3388-4A1A-9EDE-CBFDDBCEBECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D3973FF-3388-4A1A-9EDE-CBFDDBCEBECB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D109A9F-814B-4BEA-8C1A-8C8A0B3CAC6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D109A9F-814B-4BEA-8C1A-8C8A0B3CAC6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D109A9F-814B-4BEA-8C1A-8C8A0B3CAC6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D109A9F-814B-4BEA-8C1A-8C8A0B3CAC6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{822CFF75-E57D-413F-BADF-F43139A6F624}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{822CFF75-E57D-413F-BADF-F43139A6F624}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{822CFF75-E57D-413F-BADF-F43139A6F624}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{822CFF75-E57D-413F-BADF-F43139A6F624}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80C93A01-C8F0-479D-9EF4-CA5ADD7C21AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80C93A01-C8F0-479D-9EF4-CA5ADD7C21AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80C93A01-C8F0-479D-9EF4-CA5ADD7C21AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80C93A01-C8F0-479D-9EF4-CA5ADD7C21AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE937DD8-994A-4C0A-9AF3-5E0DCB1855AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE937DD8-994A-4C0A-9AF3-5E0DCB1855AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE937DD8-994A-4C0A-9AF3-5E0DCB1855AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE937DD8-994A-4C0A-9AF3-5E0DCB1855AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -266,6 +290,10 @@ Global
 		{F143FD89-6917-4C90-B689-6F305E7F811B} = {DEC092DB-32E4-40E8-95FA-D47E09C54735}
 		{1F6C8955-3B27-4E62-A907-1495AD35F079} = {DEC092DB-32E4-40E8-95FA-D47E09C54735}
 		{9D3973FF-3388-4A1A-9EDE-CBFDDBCEBECB} = {DEC092DB-32E4-40E8-95FA-D47E09C54735}
+		{3D109A9F-814B-4BEA-8C1A-8C8A0B3CAC6A} = {A4D3FBFD-2F74-4801-ABF5-3EEDA89E6D33}
+		{822CFF75-E57D-413F-BADF-F43139A6F624} = {72432ECF-1E4E-4523-BF21-29C0155BB4C7}
+		{80C93A01-C8F0-479D-9EF4-CA5ADD7C21AA} = {72432ECF-1E4E-4523-BF21-29C0155BB4C7}
+		{EE937DD8-994A-4C0A-9AF3-5E0DCB1855AB} = {72432ECF-1E4E-4523-BF21-29C0155BB4C7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {37F7F6CB-BC0C-4C4A-92ED-E3118383AE5D}

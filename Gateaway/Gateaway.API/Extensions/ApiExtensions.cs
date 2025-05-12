@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -15,7 +14,7 @@ namespace Gateaway.API.Extensions
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
-                    var key = configuration.GetSection("JwtOptions").GetChildren().First().Value;
+                    var key = configuration.GetSection("JwtSettings").GetChildren().First().Value;
 
                     options.TokenValidationParameters = new()
                     {

@@ -12,7 +12,10 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Microservices/TaskService/TaskService.API/TaskService.API.csproj", "TaskService.API/"]
+COPY ["Microservices/TaskService/TaskService.API/TaskService.API.csproj", "Microservices/TaskService/TaskService.API/"]
+COPY ["Microservices/TaskService/TaskService.Application/TaskService.Application.csproj", "Microservices/TaskService/TaskService.Application/"]
+COPY ["Microservices/TaskService/TaskService.Core/TaskService.Core.csproj", "Microservices/TaskService/TaskService.Core/"]
+COPY ["Microservices/TaskService/TaskService.Infrastructure/TaskService.Infrastructure.csproj", "Microservices/TaskService/TaskService.Infrastructure/"]
 RUN dotnet restore "./Microservices/TaskService/TaskService.API/TaskService.API.csproj"
 COPY . .
 WORKDIR "/src/Microservices/TaskService/TaskService.API"

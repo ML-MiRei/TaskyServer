@@ -1,109 +1,198 @@
+version: '3.8'
+
+networks:
+  grpc-network:
+    driver: bridge
+
 services:
+  gateaway:
+    build:
+      dockerfile: Gateaway/Gateaway.API/Dockerfile
+      context: .
+    ports:
+      - "443:443"
+    container_name: gateaway_container
+    networks:
+      - grpc-network
+    environment:
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/certs/certificate.pfx
+    volumes:
+      - ./certs:/app/certs:ro
+
   auth_service:
     build:
-        dockerfile: Microservices/AuthenticationService/AuthenticationService.API/Dockerfile
-        context: .
+      dockerfile: Microservices/AuthenticationService/AuthenticationService.API/Dockerfile
+      context: .
     ports:
-        - "8082:8082"
+      - "5001:81"
     container_name: auth_service_container
     depends_on:
-        - auth_db
+      - auth_db
+    networks:
+      - grpc-network
+
   project_service:
     build:
-        dockerfile: Microservices/ProjectService/ProjectService.API/Dockerfile
-        context: .
+      dockerfile: Microservices/ProjectService/ProjectService.API/Dockerfile
+      context: .
     ports:
-        - "8083:8083"
+      - "5002:82"
     container_name: project_service_container
     depends_on:
-        - project_db
+      - project_db
+    networks:
+      - grpc-network
+
   user_service:
     build:
-        dockerfile: Microservices/UserService/UserService.API/Dockerfile
-        context: .
+      dockerfile: Microservices/UserService/UserService.API/Dockerfile
+      context: .
     ports:
-        - "8084:8084"
+      - "5003:83"
     container_name: user_service_container
     depends_on:
-        - user_db
+      - user_db
+    networks:
+      - grpc-network
+
   board_service:
     build:
-        dockerfile: Microservices/BoardService/BoardService.API/Dockerfile
-        context: .
+      dockerfile: Microservices/BoardService/BoardService.API/Dockerfile
+      context: .
     ports:
-        - "8085:8085"
+      - "5004:84"
     container_name: board_service_container
     depends_on:
-        - board_db
+      - board_db
+    networks:
+      - grpc-network
+
   task_service:
     build:
-        dockerfile: Microservices/TaskService/TaskService.API/Dockerfile
-        context: .
+      dockerfile: Microservices/TaskService/TaskService.API/Dockerfile
+      context: .
     ports:
-        - "8086:8086"
+      - "5005:85"
     container_name: task_service_container
     depends_on:
-        - task_db
-  auth_db:
-    image: postgres:latest  
-    ports:
-        - "5432:5432"
-    environment:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: q1w
-    volumes:
-        - auth_db_data:/var/lib/postgresql/data
-    container_name: auth_db_container
-  project_db:
-    image: postgres:latest  
-    ports:
-        - "5433:5433"
-    environment:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: q1w
-    volumes:
-        - project_db_data:/var/lib/postgresql/data
-    container_name: project_db_container
-  user_db:
-    image: postgres:latest  
-    ports:
-        - "5433:5433"
-    environment:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: q1w
-    volumes:
-        - user_db_data:/var/lib/postgresql/data
-    container_name: user_db_container
-  board_db:
-    image: postgres:latest  
-    ports:
-        - "5433:5433"
-    environment:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: q1w
-    volumes:
-        - board_db_data:/var/lib/postgresql/data
-    container_name: board_db_container
-  task_db:
-    image: postgres:latest  
-    ports:
-        - "5433:5433"
-    environment:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: q1w
-    volumes:
-        - task_db_data:/var/lib/postgresql/data
-    container_name: task_db_container
+      - task_db
+    networks:
+      - grpc-network
+
   email_service:
     build:
-        dockerfile: Microservices/EmailService/EmailService/Dockerfile
-        context: .
+      dockerfile: Microservices/EmailService/EmailService/Dockerfile
+      context: .
     ports:
-        - "8081:8081"
+      - "5006:86"
     container_name: email_service_container
+    networks:
+      - grpc-network
+
+  notification_service:
+    build:
+      dockerfile: Microservices/NotificationService/NotificationService.API/Dockerfile
+      context: .
+    ports:
+      - "5007:87"
+    container_name: notification_service_container
+    networks:
+      - grpc-network
+
+  file_provider_service:
+    build:
+      dockerfile: Microservices/FilesProviderService/FilesProvider/Dockerfile
+      context: .
+    ports:
+      - "5008:88"
+    container_name: file_provider_service_container
+    networks:
+      - grpc-network
+
+  auth_db:
+    image: postgres:13.3
+    restart: always
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: q1w
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+    container_name: auth_db_container
+    networks:
+      - grpc-network
+  
+
+  project_db:
+    image: postgres:13.3
+    restart: always
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: q1w
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - project_db_data:/var/lib/postgresql/data
+    container_name: project_db_container
+    networks:
+      - grpc-network
+
+
+  user_db:
+    image: postgres:13.3
+    restart: always
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: q1w
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - user_db_data:/var/lib/postgresql/data
+    container_name: user_db_container
+    networks:
+      - grpc-network
+
+
+  board_db:
+    image: postgres:13.3
+    restart: always
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: q1w
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - board_db_data:/var/lib/postgresql/data
+    container_name: board_db_container
+    networks:
+      - grpc-network
+
+
+  task_db:
+    image: postgres:13.3
+    restart: always
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: q1w
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - task_db_data:/var/lib/postgresql/data
+    container_name: task_db_container
+    networks:
+      - grpc-network
+   
+
 volumes:
-    auth_db_data:
-    project_db_data:
-    user_db_data:
-    board_db_data:
-    task_db_data:
+  auth_db_data:
+  project_db_data:
+  user_db_data:
+  board_db_data:
+  task_db_data:

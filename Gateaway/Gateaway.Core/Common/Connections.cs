@@ -1,21 +1,42 @@
-﻿using Grpc.Net.Client;
-using Gateaway.Core.Contracts;
+﻿using Getaway.Core.Contracts.Boards;
+using Getaway.Core.Contracts.BoardTasks;
+using Getaway.Core.Contracts.Comments;
+using Getaway.Core.Contracts.Executions;
+using Getaway.Core.Contracts.Members;
+using Getaway.Core.Contracts.ProjectBoards;
+using Getaway.Core.Contracts.Projects;
+using Getaway.Core.Contracts.Sprints;
+using Getaway.Core.Contracts.Stages;
+using Getaway.Core.Contracts.Tasks;
+using Getaway.Core.Contracts.Users;
+using Grpc.Net.Client;
+using Grpc.Net.ClientFactory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Gateaway.Core.Common
 {
     public class Connections
     {
-        private static ILogger<Connections> _logger;
-        private static IOptions<ConnectionOptions> _options;
-        
-        private static Sender.SenderClient _senderServiceClient;
+        private ILogger<Connections> _logger;
+        private IOptions<ConnectionOptions> _options;
 
-        private static Projects.ProjectsClient _projectServiceClient;
-        private static Tasks.TasksClient _projectTaskServiceClient;
-        private static Sprints.SprintsClient _sprintServiceClient;
-        private static Members.MembersClient _membersServiceClient;
+        private Projects.ProjectsClient _projectsServiceClient;
+        private ProjectBoards.ProjectBoardsClient _projectBoardsServiceClient;
+        private Members.MembersClient _membersServiceClient;
+
+        private Users.UsersClient _usersServiceClient;
+
+        private Boards.BoardsClient _boardsServiceClient;
+        private Sprints.SprintsClient _sprintsServiceClient;
+        private Stages.StagesClient _stagesServiceClient;
+        private BoardTasks.BoardTasksClient _boardTasksServiceClient;
+
+        private Tasks.TasksClient _tasksServiceClient;
+        private Comments.CommentsClient _commentsServiceClient;
+        private Executions.ExecutionsClient _executionsServiceClient;
 
         public Connections(ILogger<Connections> logger, IOptions<ConnectionOptions> options)
         {
@@ -23,38 +44,41 @@ namespace Gateaway.Core.Common
             _options = options;
         }
 
-        public static Sender.SenderClient SenderServiceClient
+        public Projects.ProjectsClient ProjectServiceClient
         {
             get
             {
-                if (_senderServiceClient == null)
+                if (_projectsServiceClient == null)
                 {
                     try
                     {
-                        var channel = GrpcChannel.ForAddress(_options.Value.SenderServiceConnectionString);
-                        _senderServiceClient = new Sender.SenderClient(channel);
+                        var httpHandler = new HttpClientHandler();
+                        httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+
+                        var channel = GrpcChannel.ForAddress(_options.Value.ProjectsService, new GrpcChannelOptions { HttpHandler = httpHandler});
+                        _projectsServiceClient = new Projects.ProjectsClient(channel);
 
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex.Message);
-                        throw new Exception("Ошибка подключения к сервису отправки");
+                        _logger.LogError(ex.ToString());
+                        throw new Exception("Ошибка подключения к сервису проектов");
                     }
 
                 }
-                return _senderServiceClient;
+                return _projectsServiceClient;
             }
         }
-        public static Projects.ProjectsClient ProjectServiceClient
+        public ProjectBoards.ProjectBoardsClient ProjectBoardsServiceClient
         {
             get
             {
-                if (_projectServiceClient == null)
+                if (_projectBoardsServiceClient == null)
                 {
                     try
                     {
-                        var channel = GrpcChannel.ForAddress(_options.Value.ProjectsServiceConnectionString);
-                        _projectServiceClient = new Projects.ProjectsClient(channel);
+                        var channel = GrpcChannel.ForAddress(_options.Value.ProjectsService);
+                        _projectBoardsServiceClient = new ProjectBoards.ProjectBoardsClient(channel);
 
                     }
                     catch (Exception ex)
@@ -64,19 +88,154 @@ namespace Gateaway.Core.Common
                     }
 
                 }
-                return _projectServiceClient;
+                return _projectBoardsServiceClient;
             }
         }
-        public static Tasks.TasksClient TeamServiceClient
+        public Members.MembersClient MembersServiceClient
         {
             get
             {
-                if (_projectTaskServiceClient == null)
+                if (_membersServiceClient == null)
                 {
                     try
                     {
-                        var channel = GrpcChannel.ForAddress(_options.Value.ProjectsServiceConnectionString);
-                        _projectTaskServiceClient = new Tasks.TasksClient(channel);
+                        var channel = GrpcChannel.ForAddress(_options.Value.ProjectsService);
+                        _membersServiceClient = new Members.MembersClient(channel);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex.Message);
+                        throw new Exception("Ошибка подключения к сервису проектов");
+                    }
+
+                }
+                return _membersServiceClient;
+            }
+        }
+
+        public Users.UsersClient UsersServiceClient
+        {
+            get
+            {
+                if (_usersServiceClient == null)
+                {
+                    try
+                    {
+                        var channel = GrpcChannel.ForAddress(_options.Value.UsersService);
+                        _usersServiceClient = new Users.UsersClient(channel);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex.Message);
+                        throw new Exception("Ошибка подключения к сервису пользователей");
+                    }
+
+                }
+                return _usersServiceClient;
+            }
+        }
+
+        public Boards.BoardsClient BoardsServiceClient
+        {
+            get
+            {
+                if (_boardsServiceClient == null)
+                {
+                    try
+                    {
+                        var channel = GrpcChannel.ForAddress(_options.Value.BoardsService);
+                        _boardsServiceClient = new Boards.BoardsClient(channel);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex.Message);
+                        throw new Exception("Ошибка подключения к сервису досок");
+                    }
+
+                }
+                return _boardsServiceClient;
+            }
+        }
+        public Sprints.SprintsClient SprintsServiceClient
+        {
+            get
+            {
+                if (_sprintsServiceClient == null)
+                {
+                    try
+                    {
+                        var channel = GrpcChannel.ForAddress(_options.Value.BoardsService);
+                        _sprintsServiceClient = new Sprints.SprintsClient(channel);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex.Message);
+                        throw new Exception("Ошибка подключения к сервису досок");
+                    }
+
+                }
+                return _sprintsServiceClient;
+            }
+        }
+        public Stages.StagesClient StagesServiceClient
+        {
+            get
+            {
+                if (_stagesServiceClient == null)
+                {
+                    try
+                    {
+                        var channel = GrpcChannel.ForAddress(_options.Value.BoardsService);
+                        _stagesServiceClient = new Stages.StagesClient(channel);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex.Message);
+                        throw new Exception("Ошибка подключения к сервису досок");
+                    }
+
+                }
+                return _stagesServiceClient;
+            }
+        }
+        public BoardTasks.BoardTasksClient BoardTasksServiceClient
+        {
+            get
+            {
+                if (_boardTasksServiceClient == null)
+                {
+                    try
+                    {
+                        var channel = GrpcChannel.ForAddress(_options.Value.BoardsService);
+                        _boardTasksServiceClient = new BoardTasks.BoardTasksClient(channel);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex.Message);
+                        throw new Exception("Ошибка подключения к сервису досок");
+                    }
+
+                }
+                return _boardTasksServiceClient;
+            }
+        }
+
+        public Tasks.TasksClient TasksServiceClient
+        {
+            get
+            {
+                if (_tasksServiceClient == null)
+                {
+                    try
+                    {
+                        var channel = GrpcChannel.ForAddress(_options.Value.TasksService);
+                        _tasksServiceClient = new Tasks.TasksClient(channel);
 
                     }
                     catch (Exception ex)
@@ -86,57 +245,53 @@ namespace Gateaway.Core.Common
                     }
 
                 }
-                return _projectTaskServiceClient;
+                return _tasksServiceClient;
             }
         }
-        public static Sprints.SprintsClient NotificationServiceClient
+        public Comments.CommentsClient CommentsServiceClient
         {
             get
             {
-                if (_sprintServiceClient == null)
+                if (_commentsServiceClient == null)
                 {
                     try
                     {
-                        var channel = GrpcChannel.ForAddress(_options.Value.ProjectsServiceConnectionString);
-                        _sprintServiceClient = new Sprints.SprintsClient(channel);
+                        var channel = GrpcChannel.ForAddress(_options.Value.TasksService);
+                        _commentsServiceClient = new Comments.CommentsClient(channel);
 
                     }
                     catch (Exception ex)
                     {
                         _logger.LogError(ex.Message);
-                        throw new Exception("Ошибка подключения к сервису спринтов");
+                        throw new Exception("Ошибка подключения к сервису заданий");
                     }
 
                 }
-                return _sprintServiceClient;
+                return _commentsServiceClient;
             }
         }
-
-
-
-        public static Members.MembersClient MembersServiceClient
+        public Executions.ExecutionsClient ExecutionsServiceClient
         {
             get
             {
-                if (_membersServiceClient == null)
+                if (_executionsServiceClient == null)
                 {
                     try
                     {
-                        var channel = GrpcChannel.ForAddress(_options.Value.ProjectsServiceConnectionString);
-                        _membersServiceClient = new Members.MembersClient(channel);
+                        var channel = GrpcChannel.ForAddress(_options.Value.TasksService);
+                        _executionsServiceClient = new Executions.ExecutionsClient(channel);
 
                     }
                     catch (Exception ex)
                     {
                         _logger.LogError(ex.Message);
-                        throw new Exception("Ошибка подключения к сервису участников проектов");
+                        throw new Exception("Ошибка подключения к сервису заданий");
                     }
 
                 }
-                return _membersServiceClient;
+                return _executionsServiceClient;
             }
         }
-       
 
     }
 }

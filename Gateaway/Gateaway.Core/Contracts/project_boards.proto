@@ -1,0 +1,49 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Getaway.Core.Contracts.ProjectBoards";
+
+package project_boards;
+
+service ProjectBoards {
+  rpc AddBoard (AddBoardRequest) returns (AddBoardReply);
+  rpc DeleteBoard (DeleteBoardRequest) returns (DeleteBoardReply);
+  rpc GetAllBoards (GetAllBoardsRequest) returns (GetAllBoardsReply);
+}
+
+message AddBoardRequest {
+  string project_id = 1;
+  string board_id = 2;
+}
+
+message AddBoardReply {
+  string board_id = 1;
+}
+
+
+
+message GetAllBoardsRequest{
+	string project_id = 1;
+}
+
+message GetAllBoardsReply{
+	repeated BoardInfo boards = 1;
+}
+
+
+
+message DeleteBoardRequest{
+  string project_id = 1;
+  string board_id = 2;
+}
+
+message DeleteBoardReply{
+  string board_id  = 1;
+}
+
+
+
+message BoardInfo{
+  string project_id = 1;
+  string board_id = 2;
+}

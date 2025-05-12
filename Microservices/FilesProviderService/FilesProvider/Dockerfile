@@ -12,10 +12,10 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["FilesProvider/FilesProvider.csproj", "FilesProvider/"]
-RUN dotnet restore "./FilesProvider/FilesProvider.csproj"
+COPY ["Microservices/FilesProviderService/FilesProvider/FilesProvider.csproj", "Microservices/FilesProviderService/FilesProvider/"]
+RUN dotnet restore "./Microservices/FilesProviderService/FilesProvider/FilesProvider.csproj"
 COPY . .
-WORKDIR "/src/FilesProvider"
+WORKDIR "/src/Microservices/FilesProviderService/FilesProvider"
 RUN dotnet build "./FilesProvider.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Этот этап используется для публикации проекта службы, который будет скопирован на последний этап

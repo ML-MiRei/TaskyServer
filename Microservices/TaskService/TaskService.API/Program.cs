@@ -1,4 +1,4 @@
-using NotificationService.Infrastructure.Implementations.Services.Scheduler;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Quartz;
 using TaskService.API.Services;
 using TaskService.Application.Abstractions.Repositories;
@@ -22,12 +22,20 @@ builder.Services.AddScoped<ITasksRepository, TasksRepository>();
 builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
 builder.Services.AddScoped<IExecutionsRepository, ExecutionsRepository>();
 builder.Services.AddSingleton<KafkaProducer>();
-builder.Services.AddSingleton<IAutoNotificationsService, AutoNotificationsService>();
+builder.Services.AddScoped<IAutoNotificationsService, AutoNotificationsService>();
 builder.Services.AddSingleton<IJob, DataJob>();
 builder.Services.AddSingleton<ScheduleEvents, DataJob>();
-builder.Services.AddSingleton<INotificationService, TaskService.Infrastructure.Implementations.Services.NotificationService>();
-builder.Services.AddSingleton<KafkaProducer>();
+builder.Services.AddSingleton<INotificationService, NotificationService>();
 builder.Services.AddGrpc();
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(85, listenOptions =>
+    {
+        listenOptions.Protocols = HttpProtocols.Http2;
+    });
+});
+
 
 var app = builder.Build();
 

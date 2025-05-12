@@ -2,7 +2,9 @@
 {
     public class ConnectionOptions
     {
-        public string SenderServiceConnectionString {  get; set; }
-        public string ProjectsServiceConnectionString { get; set; }
+        public string UsersService {  get; set; }
+        public string TasksService {  get; set; }
+        public string BoardsService {  get; set; }
+        public string ProjectsService { get; set; }
     }
 }

@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option csharp_namespace = "NotificationService.API";
+
+package notifications;
+
+service Notifications {
+  rpc GetAllByUserId (GetAllByUserIdRequest) returns (GetAllByUserIdReply);
+  rpc Delete (DeleteRequest) returns (DeleteReply);
+}
+
+message GetAllByUserIdRequest {
+  string user_id = 1;
+}
+
+message GetAllByUserIdReply {
+  repeated NotificationInfo notifications = 1;
+}
+
+
+message DeleteRequest {
+  int32 notification_id = 1;
+}
+
+message DeleteReply {
+  int32 notification_id = 1;
+}
+
+message NotificationInfo{
+  int32 notification_id = 1;
+  string title = 2;
+  string text = 3;
+  string object_id = 4;
+  int32 object_type = 5;
+}

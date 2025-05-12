@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using UserService.API.Services;
 using UserService.Application.Abstractions.Repositories;
 using UserService.Application.Abstractions.Services;
@@ -18,6 +19,14 @@ builder.Services.AddSingleton<UserDbContext>();
 
 builder.Services.Configure<ConnectionsSettings>(builder.Configuration.GetSection("ConnectionString"));
 builder.Services.Configure<DbConnectionOptions>(builder.Configuration.GetSection("ConnectionString:AuthDb"));
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(83, listenOptions =>
+    {
+        listenOptions.Protocols = HttpProtocols.Http2;
+    });
+});
 
 var app = builder.Build();
 

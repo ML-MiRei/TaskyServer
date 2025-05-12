@@ -13,6 +13,11 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Gateaway/Gateaway.API/Gateaway.API.csproj", "Gateaway/Gateaway.API/"]
+COPY ["Microservices/ProjectService/ProjectService.Application/ProjectService.Application.csproj", "Microservices/ProjectService/ProjectService.Application/"]
+COPY ["Microservices/ProjectService/ProjectService.Core/ProjectService.Core.csproj", "Microservices/ProjectService/ProjectService.Core/"]
+COPY ["Gateaway/Gateaway.Application/Gateaway.Application.csproj", "Gateaway/Gateaway.Application/"]
+COPY ["Gateaway/Gateaway.Core/Gateaway.Core.csproj", "Gateaway/Gateaway.Core/"]
+COPY ["Gateaway/Gateaway.Infrastructure/Gateaway.Infrastructure.csproj", "Gateaway/Gateaway.Infrastructure/"]
 RUN dotnet restore "./Gateaway/Gateaway.API/Gateaway.API.csproj"
 COPY . .
 WORKDIR "/src/Gateaway/Gateaway.API"

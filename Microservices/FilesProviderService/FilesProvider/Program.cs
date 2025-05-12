@@ -2,6 +2,7 @@ using Amazon;
 using Amazon.S3;
 using FilesProvider.Services;
 using FilesProvider.Settings;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,16 @@ builder.Services.AddSingleton<IAmazonS3>(sp =>
     };
 
     return new AmazonS3Client(s3Settings.AccessKey, s3Settings.SecretKey, config);
+});
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(88, listenOptions =>
+    {
+        listenOptions.Protocols = HttpProtocols.Http2;
+    });
+
+    options.ListenAnyIP(80);
 });
 
 var app = builder.Build();

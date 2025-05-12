@@ -62,7 +62,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilesProviderTests", "Micro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.API", "Microservices\UserService\UserService.API\UserService.API.csproj", "{FB9A309F-B122-4E79-BF38-DF587458A3B4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotificationService", "NotificationService", "{72432ECF-1E4E-4523-BF21-29C0155BB4C7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotificationService", "Microservices\NotificationService", "{72432ECF-1E4E-4523-BF21-29C0155BB4C7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService.Tests", "Microservices\UserService\UserService.Tests\UserService.Tests.csproj", "{DCA5F8A2-1866-439A-B62D-146BC0CCB7E1}"
 EndProject
@@ -93,13 +93,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskService.API", "Microser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskService.Tests", "Microservices\TaskService\TaskService.Tests\TaskService.Tests.csproj", "{9D3973FF-3388-4A1A-9EDE-CBFDDBCEBECB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectService.Tests", "ProjectService.Tests\ProjectService.Tests.csproj", "{3D109A9F-814B-4BEA-8C1A-8C8A0B3CAC6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectService.Tests", "ProjectService.Tests\ProjectService.Tests.csproj", "{3D109A9F-814B-4BEA-8C1A-8C8A0B3CAC6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Core", "NotificationService.Core\NotificationService.Core.csproj", "{822CFF75-E57D-413F-BADF-F43139A6F624}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotificationService.Core", "Microservices\NotificationService\NotificationService.Core\NotificationService.Core.csproj", "{822CFF75-E57D-413F-BADF-F43139A6F624}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Application", "NotificationService.Application\NotificationService.Application.csproj", "{80C93A01-C8F0-479D-9EF4-CA5ADD7C21AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotificationService.Application", "Microservices\NotificationService\NotificationService.Application\NotificationService.Application.csproj", "{80C93A01-C8F0-479D-9EF4-CA5ADD7C21AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Infrastructure", "NotificationService.Infrastructure\NotificationService.Infrastructure.csproj", "{EE937DD8-994A-4C0A-9AF3-5E0DCB1855AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotificationService.Infrastructure", "Microservices\NotificationService\NotificationService.Infrastructure\NotificationService.Infrastructure.csproj", "{EE937DD8-994A-4C0A-9AF3-5E0DCB1855AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotificationService.API", "Microservices\NotificationService\NotificationService.API\NotificationService.API.csproj", "{3C432E7D-2F15-43A7-9089-C07D9A05C0D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -247,6 +249,10 @@ Global
 		{EE937DD8-994A-4C0A-9AF3-5E0DCB1855AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE937DD8-994A-4C0A-9AF3-5E0DCB1855AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE937DD8-994A-4C0A-9AF3-5E0DCB1855AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C432E7D-2F15-43A7-9089-C07D9A05C0D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C432E7D-2F15-43A7-9089-C07D9A05C0D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C432E7D-2F15-43A7-9089-C07D9A05C0D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C432E7D-2F15-43A7-9089-C07D9A05C0D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -294,6 +300,7 @@ Global
 		{822CFF75-E57D-413F-BADF-F43139A6F624} = {72432ECF-1E4E-4523-BF21-29C0155BB4C7}
 		{80C93A01-C8F0-479D-9EF4-CA5ADD7C21AA} = {72432ECF-1E4E-4523-BF21-29C0155BB4C7}
 		{EE937DD8-994A-4C0A-9AF3-5E0DCB1855AB} = {72432ECF-1E4E-4523-BF21-29C0155BB4C7}
+		{3C432E7D-2F15-43A7-9089-C07D9A05C0D2} = {72432ECF-1E4E-4523-BF21-29C0155BB4C7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {37F7F6CB-BC0C-4C4A-92ED-E3118383AE5D}

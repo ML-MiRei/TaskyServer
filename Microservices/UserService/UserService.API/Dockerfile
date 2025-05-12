@@ -13,6 +13,9 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Microservices/UserService/UserService.API/UserService.API.csproj", "Microservices/UserService/UserService.API/"]
+COPY ["Microservices/UserService/UserService.Application/UserService.Application.csproj", "Microservices/UserService/UserService.Application/"]
+COPY ["Microservices/UserService/UserService.Core/UserService.Core.csproj", "Microservices/UserService/UserService.Core/"]
+COPY ["Microservices/UserService/UserService.Infrastructure/UserService.Infrastructure.csproj", "Microservices/UserService/UserService.Infrastructure/"]
 RUN dotnet restore "./Microservices/UserService/UserService.API/UserService.API.csproj"
 COPY . .
 WORKDIR "/src/Microservices/UserService/UserService.API"

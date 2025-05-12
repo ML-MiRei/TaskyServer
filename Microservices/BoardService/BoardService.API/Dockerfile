@@ -13,6 +13,9 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Microservices/BoardService/BoardService.API/BoardService.API.csproj", "Microservices/BoardService/BoardService.API/"]
+COPY ["Microservices/BoardService/BoardService.Application/BoardService.Application.csproj", "Microservices/BoardService/BoardService.Application/"]
+COPY ["Microservices/BoardService/BoardService.Core/BoardService.Core.csproj", "Microservices/BoardService/BoardService.Core/"]
+COPY ["Microservices/BoardService/BoardService.Infrastructure/BoardService.Infrastructure.csproj", "Microservices/BoardService/BoardService.Infrastructure/"]
 RUN dotnet restore "./Microservices/BoardService/BoardService.API/BoardService.API.csproj"
 COPY . .
 WORKDIR "/src/Microservices/BoardService/BoardService.API"

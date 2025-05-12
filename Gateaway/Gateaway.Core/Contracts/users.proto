@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+option csharp_namespace = "Getaway.Core.Contracts.Users";
+
+package users;
+
+service Users {
+  rpc CreateUser (CreateUserRequest) returns (CreateUserReply);
+  rpc UpdateUser (UpdateUserRequest) returns (UpdateUserReply);
+  rpc GetUser (GetUserRequest) returns (GetUserReply);
+  rpc GetUsers (GetUsersRequest) returns (GetUsersReply);
+  rpc FindByName (FindByNameUsersRequest) returns (FindByNameUsersReply);
+}
+
+message CreateUserRequest {
+  string id = 1;
+  string email = 2;
+}
+
+message CreateUserReply {
+  string id = 1;
+  string email = 2;
+  string name = 3;
+}
+
+message UpdateUserRequest {
+  UserFullInfo info = 1;
+}
+
+message UpdateUserReply {
+  string id = 1;
+}
+
+message GetUserRequest {
+  string id = 1;
+}
+
+message GetUserReply {
+  UserFullInfo info = 1;
+}
+
+message GetUsersRequest {
+  repeated string id = 1;
+}
+
+message GetUsersReply {
+  repeated UserShortInfo users = 1;
+}
+
+message FindByNameUsersRequest {
+  string name = 1;
+}
+
+message FindByNameUsersReply {
+  repeated UserShortInfo users = 1;
+}
+
+message UserShortInfo{
+  string id = 1;
+  string name = 2;
+  Picture profile_picture = 3;
+}
+
+message UserFullInfo{
+  string id = 1;
+  string name = 2;
+  Picture profile_picture = 3;
+  string phone_number = 4;
+  string email = 5;
+  int32 gender = 6;
+}
+
+message Picture{
+  bytes byte = 1;
+  string extension = 2;
+  string name = 3;
+}

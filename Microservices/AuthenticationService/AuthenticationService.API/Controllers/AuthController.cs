@@ -25,7 +25,7 @@ namespace AuthenticationService.API.Controllers
             return Results.Ok(result.Value);
         }
 
-        [HttpPatch("/login")]
+        [HttpGet("/login")]
         public IResult Login(AuthDTO authData)
         {
             var result = authService.Login(authData);
@@ -37,6 +37,13 @@ namespace AuthenticationService.API.Controllers
 
         }
 
+        [HttpGet("/test")]
+        public IResult Test()
+        {
+            Console.WriteLine("Ok");
+            return Results.Ok("Ok");
+
+        }
 
     }
 }

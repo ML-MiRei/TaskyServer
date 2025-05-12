@@ -6,6 +6,7 @@ using AuthenticationService.Infrastructure.Implementations.Repositories;
 using AuthenticationService.Infrastructure.Implementations.Services;
 using AuthenticationService.Infrastructure.Implementations.Services.Models;
 using AuthenticationService.Infrastructure.Services;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
@@ -25,6 +26,14 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(81, listenOptions =>
+    {
+        listenOptions.Protocols = HttpProtocols.Http2;
+    });
+});
 
 // Add services to the container.
 

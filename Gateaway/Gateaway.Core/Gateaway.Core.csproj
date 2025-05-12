@@ -7,8 +7,24 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Contracts\boards.proto" />
+	  <None Remove="Contracts\board_tasks.proto" />
+	  <None Remove="Contracts\comments.proto" />
+	  <None Remove="Contracts\executions.proto" />
+	  <None Remove="Contracts\members.proto" />
+	  <None Remove="Contracts\notifications.proto" />
+	  <None Remove="Contracts\projects.proto" />
+	  <None Remove="Contracts\project_boards;.proto" />
+	  <None Remove="Contracts\sprints.proto" />
+	  <None Remove="Contracts\stages.proto" />
+	  <None Remove="Contracts\tasks.proto" />
+	  <None Remove="Contracts\users.proto" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Google.Protobuf" Version="3.29.3" />
 		<PackageReference Include="Grpc.Net.Client" Version="2.67.0" />
+		<PackageReference Include="Grpc.Net.ClientFactory" Version="2.57.0" />
 		<PackageReference Include="Grpc.Tools" Version="2.69.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -17,11 +33,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="Contracts\mail.proto" GrpcServices="Client" />
-		<Protobuf Include="Contracts\member.proto" GrpcServices="Client" />
-		<Protobuf Include="Contracts\project.proto" GrpcServices="Client" />
-		<Protobuf Include="Contracts\project_task.proto" GrpcServices="Client" />
-		<Protobuf Include="Contracts\sprint.proto" GrpcServices="Client" />
+	  <Protobuf Include="Contracts\comments.proto" GrpcServices="Client" />
+	  <Protobuf Include="Contracts\executions.proto" GrpcServices="Client" />
+	  <Protobuf Include="Contracts\project_boards.proto" GrpcServices="Client" />
+	  <Protobuf Include="Contracts\boards.proto" GrpcServices="Client" />
+	  <Protobuf Include="Contracts\members.proto" GrpcServices="Client" />
+	  <Protobuf Include="Contracts\notifications.proto" GrpcServices="Client" />
+	  <Protobuf Include="Contracts\projects.proto" GrpcServices="Client" />
+	  <Protobuf Include="Contracts\sprints.proto" GrpcServices="Client" />
+	  <Protobuf Include="Contracts\stages.proto" GrpcServices="Client" />
+	  <Protobuf Include="Contracts\board_tasks.proto" GrpcServices="Client" />
+	  <Protobuf Include="Contracts\tasks.proto" GrpcServices="Client" />
+	  <Protobuf Include="Contracts\users.proto" GrpcServices="Client" />
 	</ItemGroup>
 
 </Project>

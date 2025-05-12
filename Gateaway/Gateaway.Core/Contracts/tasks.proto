@@ -1,0 +1,98 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "Getaway.Core.Contracts.Tasks";
+
+package tasks;
+
+service Tasks {
+  rpc CreateTask (CreateTaskRequest) returns (CreateTaskReply);
+  rpc UpdateTask (UpdateTaskRequest) returns (UpdateTaskReply);
+  rpc DeleteTask (DeleteTaskRequest) returns (DeleteTaskReply);
+  rpc GetAllTasksByProject (GetAllTasksByProjectRequest) returns (GetAllTasksByProjectReply);
+  rpc GetAllTasksByUser (GetAllTasksByUserRequest) returns (GetAllTasksByUserReply);
+  rpc GetTask (GetTaskRequest) returns (GetTaskReply);
+}
+
+message CreateTaskRequest {
+  string title = 1;
+  string details = 2;
+  string project_id = 3;
+  google.protobuf.StringValue parent_id = 4;
+  google.protobuf.Timestamp date_end = 5;
+}
+
+message CreateTaskReply {
+  string task_id = 1;
+}
+
+
+message UpdateTaskRequest {
+  string title = 1;
+  string details = 2;
+  google.protobuf.Timestamp date_end = 3;
+  string task_id = 4;
+}
+
+message UpdateTaskReply {
+  string task_id = 1;
+}
+
+
+
+message DeleteTaskRequest {
+  string task_id = 1;
+}
+
+message DeleteTaskReply {
+  string task_id = 1;
+}
+
+
+
+message GetAllTasksByProjectRequest {
+  string project_id = 1;
+}
+
+message GetAllTasksByProjectReply {
+  repeated TaskInfo tasks = 1;
+}
+
+
+
+message GetAllTasksByUserRequest {
+  string user_id = 1;
+}
+
+message GetAllTasksByUserReply {
+  repeated TaskInfo tasks = 1;
+}
+
+
+
+message GetTaskRequest {
+  string task_id = 1;
+}
+
+message GetTaskReply {
+  string title = 1;
+  string details = 2;
+  string project_id = 3;
+  google.protobuf.StringValue parent_id = 4;
+  google.protobuf.Timestamp date_created = 5;
+  google.protobuf.Timestamp date_end = 6;
+  string task_id = 7;
+}
+
+
+
+message TaskInfo{
+  string title = 1;
+  string details = 2;
+  string project_id = 3;
+  google.protobuf.StringValue parent_id = 4;
+  google.protobuf.Timestamp date_created = 5;
+  google.protobuf.Timestamp date_end = 6;
+  string task_id = 7;
+}

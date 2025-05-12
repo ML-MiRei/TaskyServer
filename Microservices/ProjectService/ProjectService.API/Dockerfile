@@ -13,6 +13,9 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Microservices/ProjectService/ProjectService.API/ProjectService.API.csproj", "Microservices/ProjectService/ProjectService.API/"]
+COPY ["Microservices/ProjectService/ProjectService.Application/ProjectService.Application.csproj", "Microservices/ProjectService/ProjectService.Application/"]
+COPY ["Microservices/ProjectService/ProjectService.Core/ProjectService.Core.csproj", "Microservices/ProjectService/ProjectService.Core/"]
+COPY ["Microservices/ProjectService/ProjectService.Infrastructure/ProjectService.Infrastructure.csproj", "Microservices/ProjectService/ProjectService.Infrastructure/"]
 RUN dotnet restore "./Microservices/ProjectService/ProjectService.API/ProjectService.API.csproj"
 COPY . .
 WORKDIR "/src/Microservices/ProjectService/ProjectService.API"

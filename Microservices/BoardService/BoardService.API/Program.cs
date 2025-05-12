@@ -3,6 +3,7 @@ using BoardService.Application.Abstractions.Repositories;
 using BoardService.Application.Services;
 using BoardService.Infrastructure.Database;
 using BoardService.Infrastructure.Implementations.Repositories;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,15 @@ builder.Services.AddScoped<ISprintsRepository, SprintsRepository>();
 builder.Services.AddScoped<IStagesRepository, StagesRepository>();
 builder.Services.AddScoped<ITasksRepository, TasksRepository>();
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(84, listenOptions =>
+    {
+        listenOptions.Protocols = HttpProtocols.Http2;
+    });
+
+    options.ListenAnyIP(80);
+});
 
 
 var app = builder.Build();

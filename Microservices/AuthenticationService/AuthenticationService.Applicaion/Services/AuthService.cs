@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AuthenticationService.Applicaion.Services
 {
-    public class AuthService(IAuthDataRepository userRepository, IPasswordHasher passwordHasher, IJwtProvider jwtProvider, ILogger<AuthService> logger) : IAuthService
+    public class AuthService(IAuthDataRepository userRepository, IVerificationService verificationService, IPasswordHasher passwordHasher, IJwtProvider jwtProvider, ILogger<AuthService> logger) : IAuthService
     {
         public Result<string> Register(AuthDTO userData)
         {
@@ -40,8 +40,7 @@ namespace AuthenticationService.Applicaion.Services
 
                 resultFactory.SetResult(token);
 
-
-                //verify
+                verificationService.VerificateEmail(userData.Email);
 
                 return resultFactory.Create();
             }
@@ -74,7 +73,7 @@ namespace AuthenticationService.Applicaion.Services
                 return resultFactory.Create();
             }
 
-            var token = jwtProvider.GenerateToken(AuthDataModel.Create(user.Email, user.PasswordHash, user.UserId).Value);
+            var token = jwtProvider.GenerateToken(AuthDataModel.Create(user.Email, user.PasswordHash, user.UserId, user.IsVerified).Value);
 
             resultFactory.SetResult(token);
             return resultFactory.Create();

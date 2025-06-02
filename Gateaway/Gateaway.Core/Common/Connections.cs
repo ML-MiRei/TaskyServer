@@ -10,11 +10,8 @@ using Getaway.Core.Contracts.Stages;
 using Getaway.Core.Contracts.Tasks;
 using Getaway.Core.Contracts.Users;
 using Grpc.Net.Client;
-using Grpc.Net.ClientFactory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Gateaway.Core.Common
 {

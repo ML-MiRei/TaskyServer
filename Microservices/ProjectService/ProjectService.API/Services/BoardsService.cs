@@ -6,7 +6,7 @@ using ProjectService.Core.Models;
 
 namespace ProjectService.API.Services
 {
-    public class BoardsService(ILogger<BoardsService> logger, IBoardsRepository boardsRepository) : Boards.BoardsBase
+    public class BoardsService(ILogger<BoardsService> logger, IBoardsRepository boardsRepository) : ProjectBoards.ProjectBoardsBase
     {
         public override async Task<AddBoardReply> AddBoard(AddBoardRequest request, ServerCallContext context)
         {

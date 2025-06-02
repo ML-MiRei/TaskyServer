@@ -37,41 +37,41 @@ namespace ProjectService.Infrastructure.Kafka
 
         public async void StartSenderAsync(string topic)
         {
-            using var producer = new ProducerBuilder<string, MessageModel>(_config)
-                .SetKeySerializer(Serializers.Utf8)
-                .SetLogHandler((_, message) =>
-                    _logger.LogDebug($"Facility: {message.Facility}-{message.Level} Message: {message.Message}"))
-                .SetErrorHandler((_, e) => _logger.LogError($"Error: {e.Reason}. Is Fatal: {e.IsFatal}"))
-                .Build();
+            //using var producer = new ProducerBuilder<string, MessageModel>(_config)
+            //    .SetKeySerializer(Serializers.Utf8)
+            //    .SetLogHandler((_, message) =>
+            //        _logger.LogDebug($"Facility: {message.Facility}-{message.Level} Message: {message.Message}"))
+            //    .SetErrorHandler((_, e) => _logger.LogError($"Error: {e.Reason}. Is Fatal: {e.IsFatal}"))
+            //    .Build();
 
-            try
-            {
-                _logger.LogInformation("\nProducer loop started...\n\n");
-                while (true)
-                {
-                    var result = _messagesQueue.TryDequeue(out var message);
-                    if (!result)                        
-                        continue;
+            //try
+            //{
+            //    _logger.LogInformation("\nProducer loop started...\n\n");
+            //    while (true)
+            //    {
+            //        var result = _messagesQueue.TryDequeue(out var message);
+            //        if (!result)                        
+            //            continue;
 
-                    var deliveryReport = await producer.ProduceAsync(topic,
-                        new Message<string, MessageModel>
-                        {
-                            Key = message.Item1,
-                            Value = message.Item2
-                        });
+            //        var deliveryReport = await producer.ProduceAsync(topic,
+            //            new Message<string, MessageModel>
+            //            {
+            //                Key = message.Item1,
+            //                Value = message.Item2
+            //            });
 
-                    if (deliveryReport.Status != PersistenceStatus.Persisted)
-                    {
-                       _logger.LogError(
-                            $"ERROR: Message not ack'd by all brokers (key: '{message.Item1}'). Delivery status: {deliveryReport.Status}");
-                    }
-                }
-            }
-            catch (ProduceException<string, MessageModel> e)
-            {
-                _logger.LogError($"Permanent error: {e.Message} for message (value: '{e.DeliveryResult.Value}')");
-                _logger.LogInformation("Exiting producer...");
-            }
+            //        if (deliveryReport.Status != PersistenceStatus.Persisted)
+            //        {
+            //           _logger.LogError(
+            //                $"ERROR: Message not ack'd by all brokers (key: '{message.Item1}'). Delivery status: {deliveryReport.Status}");
+            //        }
+            //    }
+            //}
+            //catch (ProduceException<string, MessageModel> e)
+            //{
+            //    _logger.LogError($"Permanent error: {e.Message} for message (value: '{e.DeliveryResult.Value}')");
+            //    _logger.LogInformation("Exiting producer...");
+            //}
         }
     }
 }

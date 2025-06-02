@@ -3,9 +3,9 @@ syntax = "proto3";
 import "google/protobuf/wrappers.proto";
 option csharp_namespace = "BoardService.API";
 
-package tasks;
+package board_tasks;
 
-service Tasks {
+service BoardTasks {
   rpc AddTasks (AddTasksRequest) returns (AddTasksReply);
   rpc DeleteTask (DeleteTaskRequest) returns (DeleteTaskReply);
   rpc ChangeSprint (ChangeSprintRequest) returns (ChangeSprintReply);

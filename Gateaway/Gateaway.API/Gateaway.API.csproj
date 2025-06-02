@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Gateaway.Application\Gateaway.Application.csproj" />
-    <ProjectReference Include="..\..\Microservices\ProjectService\ProjectService.Application\ProjectService.Application.csproj" />
     <ProjectReference Include="..\Gateaway.Application\Gateaway.Application.csproj" />
     <ProjectReference Include="..\Gateaway.Infrastructure\Gateaway.Infrastructure.csproj" />
   </ItemGroup>

@@ -7,9 +7,9 @@ namespace Gateaway.Core.ReplyModels
         public string Id { get; set; }
         public string Title { get; set; }
         public BoardType Type { get; set; }
-        public List<SprintModel> Sprints { get; set; }
-        public List<StageModel> Stages { get; set; }
-        public List<TaskModel> Tasks { get; set; }
+        public SprintModel[] Sprints { get; set; }
+        public StageModel[] Stages { get; set; }
+        public BoardTaskModel[] Tasks { get; set; }
 
     }
 }

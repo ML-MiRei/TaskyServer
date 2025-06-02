@@ -5,7 +5,7 @@ using Grpc.Core;
 
 namespace BoardService.API.Services
 {
-    public class TasksService(ILogger<TasksService> logger, ITasksRepository tasksRepository) : Tasks.TasksBase
+    public class TasksService(ILogger<TasksService> logger, ITasksRepository tasksRepository) : BoardTasks.BoardTasksBase
     {
         public async override Task<AddTasksReply> AddTasks(AddTasksRequest request, ServerCallContext context)
         {

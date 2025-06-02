@@ -8,7 +8,7 @@ namespace NotificationService.Application.Abstractions.Services
         public async void Create(string[] users, NotificationModel notificationModel)
         {
             var notifications = await notificationsRepository.CreateAsync(users, notificationModel);
-            notificationSender.SendNotification(users, notifications.ToArray());
+            notificationSender.SendNotifications(users, notifications.ToArray());
         }
 
         public async void Create(string user, NotificationModel notificationModel)

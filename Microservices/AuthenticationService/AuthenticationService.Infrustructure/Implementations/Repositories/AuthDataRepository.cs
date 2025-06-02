@@ -8,7 +8,7 @@ namespace AuthenticationService.Infrastructure.Implementations.Repositories
 {
     public class AuthDataRepository(AuthDbContext context) : IAuthDataRepository
     {
-        public async Task<Guid> Create(AuthDataModel authData)
+        public async Task<string> Create(AuthDataModel authData)
         {
             var newData = new AuthData(authData.Email, authData.PasswordHash);
             await context.AuthData.AddAsync(newData);
@@ -19,11 +19,19 @@ namespace AuthenticationService.Infrastructure.Implementations.Repositories
 
         public async Task<AuthDataModel?> GetByEmail(string email)
         {
-            var data = await context.AuthData.FirstOrDefaultAsync(ad => ad.Email == email);
-            return data == null ? null : AuthDataModel.Create(data.Email, data.PasswordHash, data.UserId, data.IsVerified).Value;
+            try
+            {
+                var data = await context.AuthData.AsNoTracking().FirstOrDefaultAsync(ad => ad.Email == email);
+                return data == null ? null : AuthDataModel.Create(data.Email, data.PasswordHash, data.UserId, data.IsVerified).Value;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
         }
 
-        public async Task<Guid?> UpdateEmailAsync(Guid userId, string email)
+        public async Task<string?> UpdateEmailAsync(string userId, string email)
         {
             var data = await context.AuthData.FirstOrDefaultAsync(ad => ad.UserId == userId);
 
@@ -36,7 +44,7 @@ namespace AuthenticationService.Infrastructure.Implementations.Repositories
             return userId;
         }
 
-        public async Task<Guid?> UpdatePasswordAsync(Guid userId, string passwordHash)
+        public async Task<string?> UpdatePasswordAsync(string userId, string passwordHash)
         {
             var data = await context.AuthData.FirstOrDefaultAsync(ad => ad.UserId == userId);
 
@@ -47,6 +55,13 @@ namespace AuthenticationService.Infrastructure.Implementations.Repositories
             await context.SaveChangesAsync();
 
             return userId;
+        }
+
+        public async Task SetIsVerify(string userId)
+        {
+            var data = await context.AuthData.FirstOrDefaultAsync(ad => ad.UserId == userId);
+            data.IsVerified = true;
+            await context.SaveChangesAsync();
         }
 
     }

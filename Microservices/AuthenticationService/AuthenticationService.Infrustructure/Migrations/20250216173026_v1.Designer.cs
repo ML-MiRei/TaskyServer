@@ -27,7 +27,7 @@ namespace AuthenticationService.Infrastructure.Migrations
 
             modelBuilder.Entity("AuthenticationService.Infrastructure.Database.Entities.AuthData", b =>
                 {
-                    b.Property<Guid>("UserId")
+                    b.Property<string>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("NEWID()");

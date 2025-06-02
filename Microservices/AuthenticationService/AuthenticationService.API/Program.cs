@@ -15,6 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
 builder.Services.AddTransient<IAuthDataRepository, AuthDataRepository>();
+builder.Services.AddTransient<IVerificationTokenProvider, VerificationTokenProvider>();
+builder.Services.AddTransient<IVerificationEmailSender, VerificationEmailSender>();
+builder.Services.AddTransient<IVerificationService, VerificationService>();
 builder.Services.AddTransient<IJwtProvider, JwtProvider>();
 builder.Services.Configure<DbConnectionOptions>(builder.Configuration.GetSection("ConnectionString:AuthDb"));
 builder.Services.Configure<VerificationOptions>(builder.Configuration.GetSection("VerificationSettings"));
@@ -26,12 +29,26 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddMemoryCache();
+// Добавьте сервисы CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173") // Ваш фронтенд URL
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials(); // Если используете куки/авторизацию
+        });
+});
 
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.ListenAnyIP(81, listenOptions =>
     {
-        listenOptions.Protocols = HttpProtocols.Http2;
+        //listenOptions.Protocols = HttpProtocols.Http2;
+        listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
     });
 });
 
@@ -43,8 +60,9 @@ var app = builder.Build();
 
 
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseSwagger();
+app.UseCors("AllowFrontend"); 
 app.UseSwaggerUI();
 app.MapControllers();
 

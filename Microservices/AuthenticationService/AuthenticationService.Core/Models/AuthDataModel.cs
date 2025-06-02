@@ -5,11 +5,11 @@ namespace AuthenticationService.Core.Models
 {
     public class AuthDataModel
     {
-        public Guid? UserId { get;} = null;
+        public string? UserId { get;} = null;
         public string Email { get; }
         public string PasswordHash { get; }
         public bool IsVerified {  get; }
-        private AuthDataModel(string email, string passwordHash, Guid? userId, bool isVerified)
+        private AuthDataModel(string email, string passwordHash, string? userId, bool isVerified)
         {
             Email = email;
             PasswordHash = passwordHash;
@@ -39,7 +39,7 @@ namespace AuthenticationService.Core.Models
         }
 
 
-        public static Result<AuthDataModel> Create(string email, string passwordHash, Guid? userId = null, bool isVerified = false)
+        public static Result<AuthDataModel> Create(string email, string passwordHash, string? userId = null, bool isVerified = false)
         {
             var resultFactory = new ResultFactory<AuthDataModel>();
 

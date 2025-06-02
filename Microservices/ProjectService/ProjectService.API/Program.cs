@@ -1,7 +1,4 @@
-using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.AspNetCore.Server.Kestrel.Https;
-using Microsoft.Extensions.Options;
 using ProjectService.API.Services;
 using ProjectService.Application.Abstractions.Repositories;
 using ProjectService.Application.Abstractions.Services;
@@ -16,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddGrpc();
 builder.Services.Configure<DbConnectionOptions>(builder.Configuration.GetSection("ConnectionString:ProjectDb"));
 builder.Services.AddDbContext<ProjectsDbContext>();
+builder.Services.AddScoped<MembersManager>();
 builder.Services.AddScoped<IProjectsRepository, ProjectsRepository>();
 builder.Services.AddScoped<IMembersRepository, MembersRepository>();
 builder.Services.AddScoped<IBoardsRepository, BoardsRepository>();

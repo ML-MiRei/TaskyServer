@@ -3,6 +3,6 @@
     public class VerificationOptions
     {
         public string EmailServiceAddress { get; set; }
-        public string ConfirmationPageLink { get; set; }
+        public string ConfirmationLink { get; set; }
     }
 }

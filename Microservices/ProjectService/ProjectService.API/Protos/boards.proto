@@ -1,11 +1,10 @@
 syntax = "proto3";
-import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "BoardService.API";
 
-package boards;
+package project_boards;
 
-service Boards {
+service ProjectBoards {
   rpc AddBoard (AddBoardRequest) returns (AddBoardReply);
   rpc DeleteBoard (DeleteBoardRequest) returns (DeleteBoardReply);
   rpc GetAllBoards (GetAllBoardsRequest) returns (GetAllBoardsReply);

@@ -15,7 +15,7 @@ namespace AuthenticationService.Infrastructure.Migrations
                 name: "AuthData",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "NEWID()"),
+                    UserId = table.Column<string>(type: "uuid", nullable: false, defaultValueSql: "NEWID()"),
                     Email = table.Column<string>(type: "text", nullable: false),
                     PasswordHash = table.Column<string>(type: "text", nullable: false),
                     RegistrationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "GETDATE()"),

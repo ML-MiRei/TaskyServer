@@ -6,7 +6,7 @@ namespace AuthenticationService.Infrastructure.Database.Entities
     {
         [Key]
         [Required]
-        public Guid UserId { get; set; } = Guid.NewGuid();
+        public string UserId { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         public string Email { get; set; }

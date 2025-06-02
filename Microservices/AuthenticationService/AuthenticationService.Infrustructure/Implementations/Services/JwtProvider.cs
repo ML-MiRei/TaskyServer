@@ -15,8 +15,9 @@ namespace AuthenticationService.Infrastructure.Services
         {
             var values = options.Value;
             Claim[] claims = [
-                new Claim("userId", authDataModel.UserId.ToString()),
-                new Claim("email", authDataModel.Email)
+                new Claim("userId", authDataModel.UserId),
+                new Claim("email", authDataModel.Email),
+                new Claim("isVerified", authDataModel.IsVerified.ToString(), ClaimValueTypes.Boolean)
                 ];
 
             var signingCredentials = new SigningCredentials(

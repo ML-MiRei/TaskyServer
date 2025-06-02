@@ -20,7 +20,7 @@ namespace NotificationService.API.SignalR.Hubs
             }
         }
 
-        public void SendNotification(string[] userIds, NotificationModel[] notificationModel)
+        public void SendNotifications(string[] userIds, NotificationModel[] notificationModel)
         {
             try
             {
